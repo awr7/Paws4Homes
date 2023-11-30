@@ -5,6 +5,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
+import Signup from './components/Signup/Signup';
+import ShelterBreederSignup from './components/Signup/ShelterBreederSignup';
+import CustomerSignup from './components/Signup/CustomerSignup';
+
 
 
 const App = () => {
@@ -25,20 +29,12 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        {/* Add other routes as needed */}
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup/customer" element={<CustomerSignup />} />
+        <Route path="/signup/shelter-breeder" element={<ShelterBreederSignup />} />
       </Routes>
     </Router>
   );
 };
-
-/*function App() {
-  return (
-    <div className="App">
-      <Header />
-      <Homepage />
-    </div>
-  );
-}
-*/
 
 export default App;

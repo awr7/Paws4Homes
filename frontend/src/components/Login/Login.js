@@ -2,8 +2,15 @@
 import './Login.css';
 import paw from '../../assets/img/PawIconColor.png';
 import cloud from '../../assets/img/dogCloud.png';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate(); 
+
+    const handleSignupClick = () => {
+    navigate('/signup'); 
+  };
+
     return (
       <div className="login-container">
         <div className="white-rectangle">
@@ -34,7 +41,7 @@ const Login = () => {
             <div className="or-divider">
               <div className="or-text">OR</div>
             </div>
-            <button className="signup-button">
+            <button className="signup-button" onClick={handleSignupClick}>
               <span className="signup-text">Signup Now</span>
             </button>
             <img src={paw} alt="Paw Icon" className="paw-icon" />

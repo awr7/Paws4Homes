@@ -14,7 +14,7 @@ const Header = ({ isLoggedIn, onLogin, onLogout }) => {
           <div className="nav-item">Match me with a dog</div>
 
           {isLoggedIn ? (
-            <button onClick={onLogout}>My Account</button>
+            <Link to="/login" className="nav-item login-link">My Account</Link>
           ) : (
             <Link to="/login" className="nav-item login-link">Login</Link>
           )}

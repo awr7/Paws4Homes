@@ -1,24 +1,78 @@
 import './ShelterBreederSignup.css';
+import React, { useState } from 'react';
 import paw from '../../assets/img/PawIconColor.png';
+import { useNavigate } from 'react-router-dom';
 
 const ShelterBreederSignup = () => {
 
-    const handleSubmit = (event) => {
-        event.preventDefault(); 
+    const navigate = useNavigate();
+    const [popup, setPopup] = useState({ message: '', type: '' });
+
+    const handleSubmit = async (event) => {
+        event.preventDefault(); // Prevent default form submission behavior
     
         const formData = new FormData(event.target);
-        let formOutput = ''; 
+        let formOutput = {}; // Initialize an object to hold the form output
     
         for (const [key, value] of formData.entries()) {
-            formOutput += `${key}: ${value} `;
+            formOutput[key] = value;
         }
-        console.log("Form submitted!")
-        console.log(formOutput.trim()); 
+    
+        // Check if passwords match before sending to the server
+        if (formOutput.password !== formOutput.rePassword) {
+            console.error("Passwords do not match.");
+            // Here, you should update the state to display an error message to the user
+            return;
+        }
+    
+        try {
+            const response = await fetch('http://localhost:8000/register/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include CSRF token as needed
+                },
+                body: JSON.stringify(Object.fromEntries(formData))
+            });
+            const data = await response.json();
+            
+            if (response.ok) {
+                setPopup({ message: 'User created successfully!', type: 'success' });
+            } else {
+                setPopup({ message: data.error, type: 'error' });
+            }
+        } catch (error) {
+            setPopup({ message: 'Network error: Could not connect to server.', type: 'error' });
+        }
     };
+
+    const PopupMessage = ({ message, type, onClose }) => {
+        const messageClass = type === 'success' ? 'popup-success' : 'popup-error';
+    
+        return (
+            <div className={`popup-message ${messageClass}`}>
+                <p>{message}</p>
+                <button onClick={onClose}>Close</button>
+            </div>
+        );
+    };
+    
     
     
     return (
         <div className="signup-container">
+            {popup.message && (
+            <PopupMessage
+                message={popup.message}
+                type={popup.type}
+                onClose={() => {
+                    setPopup({ message: '', type: '' });
+                    if (popup.type === 'success') {
+                    navigate('/login'); 
+                    }
+                }}
+            />
+            )}
             <div className="white-rectangle">
                 <div className="colored-rectangle">
                     <div className="signup-heading-text">Signup</div>

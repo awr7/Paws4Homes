@@ -1,24 +1,66 @@
 import './CustomerSignup.css';
 import paw from '../../assets/img/PawIconColor.png';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CustomerSignup = () => {
 
-    const handleSubmit = (event) => {
-        event.preventDefault(); // Prevent default form submission behavior
+    const navigate = useNavigate();
+    const [popup, setPopup] = useState({ message: '', type: '' });
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
     
         const formData = new FormData(event.target);
-        let formOutput = ''; // Initialize a string to hold the form output
+        let payload = Object.fromEntries(formData);
     
-        for (const [key, value] of formData.entries()) {
-            formOutput += `${key}: ${value} `;
+        try {
+            const response = await fetch('http://localhost:8000/register/', { // Update with your endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'X-CSRFToken': csrfToken, // Uncomment and use CSRF token if required
+                },
+                body: JSON.stringify(payload),
+            });
+            const data = await response.json();
+            
+            if (response.ok) {
+                setPopup({ message: 'User created successfully!', type: 'success' });
+            } else {
+                setPopup({ message: data.error || 'An error occurred', type: 'error' });
+            }
+        } catch (error) {
+            setPopup({ message: 'Network error: Could not connect to server.', type: 'error' });
         }
-        console.log("Form submitted!")
-        console.log(formOutput.trim()); // Log the output to the console
+    };
+
+    const PopupMessage = ({ message, type, onClose }) => {
+        const messageClass = type === 'success' ? 'popup-success' : 'popup-error';
+    
+        return (
+            <div className={`popup-message ${messageClass}`}>
+                <p>{message}</p>
+                <button onClick={onClose}>Close</button>
+            </div>
+        );
     };
     
     
     return (
         <div className="signup-container">
+            {popup.message && (
+            <PopupMessage
+                message={popup.message}
+                type={popup.type}
+                onClose={() => {
+                    setPopup({ message: '', type: '' });
+                    if (popup.type === 'success') {
+                    navigate('/login'); 
+                    }
+                }}
+            />
+            )}
             <div className="white-rectangle">
                 <div className="colored-rectangle">
                     <div className="signup-heading-text">Signup</div>

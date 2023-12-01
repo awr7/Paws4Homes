@@ -12,7 +12,7 @@ html, body {
   justify-content: center;
 }
 
-.white-rectangle {
+.white1-rectangle {
   background-color: white;
   width: 1680.002px;
   height: 936.924px;
@@ -129,7 +129,7 @@ html, body {
   transform: rotate(-3deg);
   transform-origin: 0 0;
   position: absolute; 
-  top: 90px; 
-  left: 746px; 
+  top: 97px; 
+  left: 796px; 
   z-index: 2;
 }

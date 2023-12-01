@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Home.css';
 import { useTransition, animated } from 'react-spring';
+import { useNavigate } from 'react-router-dom';
 import image1 from '../../assets/img/winterDog.jpg';
 import image2 from '../../assets/img/dogSword.png';
 import image3 from '../../assets/img/dogCool.jpg';
@@ -9,7 +10,6 @@ import image5 from '../../assets/img/dogBubbles.jpg';
 import image6 from '../../assets/img/dogGrass.jpeg';
 
 
-// Define your background images and the associated text
 const backgroundData = [
   { img: image1, text: 'FUN', color: '#FFD600' },
   { img: image2, text: 'ADVENTURE', color: '#FF0000' },
@@ -21,6 +21,13 @@ const backgroundData = [
 ];
 
 const Home = () => {
+
+  const navigate = useNavigate();
+
+  const handleExploreClick = () => {
+    navigate('/explore');
+  };
+
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -37,6 +44,7 @@ const Home = () => {
     leave: { opacity: 0 },
     config: { duration: 2500 },
   });
+
 
   return (
     <main className="home-container">
@@ -67,7 +75,7 @@ const Home = () => {
        
 
         <div className="buttons">
-          <button className="btn explore">Explore dogs</button>
+        <button className="btn explore" onClick={handleExploreClick}>Explore dogs</button>
           <button className="btn match">Match with a dog</button>
         </div>
       </div>

@@ -18,13 +18,6 @@ const ShelterBreederSignup = () => {
             formOutput[key] = value;
         }
     
-        // Check if passwords match before sending to the server
-        if (formOutput.password !== formOutput.rePassword) {
-            console.error("Passwords do not match.");
-            // Here, you should update the state to display an error message to the user
-            return;
-        }
-    
         try {
             const response = await fetch('http://localhost:8000/register/', {
                 method: 'POST',

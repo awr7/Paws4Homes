@@ -18,14 +18,16 @@ def login(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             # Login successful
-            return JsonResponse({'success': True}, status=200)
+            user_profile = UserProfile.objects.get(user=user)
+            is_business_account = user_profile.is_business_account if user_profile else False
+            return JsonResponse({'success': True, 'isBusiness': is_business_account}, status=200)
         else:
             # Login failed
             return JsonResponse({'error': 'Invalid credentials'}, status=401)
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
-@csrf_exempt  # You should use CSRF tokens in production for security
+@csrf_exempt  
 def register(request):
     if request.method == 'POST':
         data = json.loads(request.body)

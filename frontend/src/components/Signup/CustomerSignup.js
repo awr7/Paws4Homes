@@ -15,7 +15,7 @@ const CustomerSignup = () => {
         let payload = Object.fromEntries(formData);
     
         try {
-            const response = await fetch('http://localhost:8000/register/', { // Update with your endpoint
+            const response = await fetch('http://localhost:8000/register/', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

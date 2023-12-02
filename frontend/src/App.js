@@ -11,6 +11,7 @@ import CustomerSignup from './components/Signup/CustomerSignup';
 import MyAccount from './components/Dashboard/MyAccount'
 import Inbox  from './components/Dashboard/Inbox'
 import ManageListings from './components/Dashboard/ManageListings'
+import PostDogPage from './components/Dashboard/postDog'
 import ExplorePage from './components/Explore/ExplorePage';
 
 
@@ -62,6 +63,7 @@ const App = () => {
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/manage-listings" element={<ManageListings />} />
         <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/manage-listings/post" element={<PostDogPage />} />
       </Routes>
     </Router>
   );

@@ -31,7 +31,6 @@ const App = () => {
   setIsBusinessAccount(businessAccount);
   }, []);
 
-  // Function to update login status
   const handleLogin = (isBusiness = false) => {
     setIsLoggedIn(true);
     setIsBusinessAccount(isBusiness);
@@ -39,11 +38,21 @@ const App = () => {
     localStorage.setItem('isBusinessAccount', JSON.stringify(isBusiness));  
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setIsBusinessAccount(false);
-    localStorage.removeItem('isLoggedIn'); // Remove login state from local storage
-    localStorage.removeItem('isBusinessAccount');
+  const handleLogout = async () => {
+    try {
+      // Call the backend logout endpoint
+      await fetch('http://localhost:8000/logout/', {
+        method: 'POST',
+        credentials: 'include', 
+      });
+      // Update local state and localStorage after successful logout
+      setIsLoggedIn(false);
+      setIsBusinessAccount(false);
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('isBusinessAccount');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   return (

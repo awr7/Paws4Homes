@@ -12,7 +12,12 @@ const PostDog = () => {
     const [dogAge, setDogAge] = useState('');
     const [dogUnit, setDogUnit] = useState(''); 
     const [dogBreed, setDogBreed] = useState('');
+    const [dogBio, setDogBio] = useState('');
+    const [dogSize, setDogSize] = useState('');
+    const [dogColor, setDogColor] = useState('');
+    const [dogGender, setDogGender] = useState('');
     const [showTooltip, setShowTooltip] = useState(false);
+    const [tooltipText, setTooltipText] = useState('');
 
     const handleImageClick = (index) => {
         setCurrentImageIndex(index);
@@ -42,14 +47,53 @@ const PostDog = () => {
         }
       };
 
-      const handleMouseEnter = () => {
+      const handleMouseEnter = (tooltipMsg) => {
         setShowTooltip(true);
-        console.log(showTooltip);
+        setTooltipText(tooltipMsg);
       }; 
     
       const handleMouseLeave = () => {
         setShowTooltip(false);
+        setTooltipText('');
       };
+
+      const handleSubmit = async () => {
+        // Prepare the form data with all fields
+        const formData = {
+            name: dogName,
+            breed: dogBreed,
+            age: dogAge,
+            ageUnit: dogUnit,
+            color: dogColor, 
+            size: dogSize, 
+            bio: dogBio, 
+            gender: dogGender, 
+            images: dogImages.filter(Boolean) 
+        };
+    
+        try {
+            const response = await fetch('http://localhost:8000/submit-dog-listing/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include CSRF token and authentication headers as needed
+                },
+                credentials: 'include', 
+                body: JSON.stringify(formData)
+            });
+            const data = await response.json();
+    
+            if (response.ok) {
+                // Handle success
+                console.log('Dog listing created successfully!', data);
+            } else {
+                // Handle errors
+                console.error('Error:', data.error);
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+        }
+    };
 
   return (
     <div className="manage-container">
@@ -67,25 +111,25 @@ const PostDog = () => {
             <InputPair label="Age" id="age" placeholder="Age" value={dogAge} onChange={(e) => setDogAge(e.target.value)} />
             <InputPair label="Unit" id="age-unit" inputType="dropdown" options={[{ value: 'months', label: 'Months' }, { value: 'years', label: 'Years' }]} value={dogUnit} onChange={(e) => setDogUnit(e.target.value)} />
           </div>
-            <InputPair label="Color" id="color" placeholder="Color" />
+          <InputPair label="Color" id="color" placeholder="Color" value={dogColor} onChange={(e) => setDogColor(e.target.value)} />
           </div>
           
           <div className="input-group">
-            <InputPair label="Gender" id="gender" inputType="dropdown" options={[{ value: 'female', label: 'Female' }, { value: 'male', label: 'Male' }]} />
-            <InputPair label="Size" id="size" inputType="dropdown" options={[{ value: 'small', label: 'Small' }, { value: 'medium', label: 'Medium' }, { value: 'large', label: 'Large' }]} />
+          <InputPair label="Gender" id="gender" inputType="dropdown" options={[{ value: 'female', label: 'Female' }, { value: 'male', label: 'Male' }]} value={dogGender} onChange={(e) => setDogGender(e.target.value)} />
+            <InputPair label="Size" id="size" inputType="dropdown" options={[{ value: 'small', label: 'Small' }, { value: 'medium', label: 'Medium' }, { value: 'large', label: 'Large' }]} value={dogSize} onChange={(e) => setDogSize(e.target.value)} />
           </div>
           <div className="input-group">
-            <InputPair label="Bio" id="bio" placeholder="Add some fun facts about the dog!" isTextArea={true} />
+          <InputPair label="Bio" id="bio" placeholder="Add some fun facts about the dog!" isTextArea={true} value={dogBio} onChange={(e) => setDogBio(e.target.value)} />
           </div>
           </div>
-          <div className="submit-button">
-          Submit Your Listing
-        </div>
+          <div className="submit-button" onClick={handleSubmit}>
+            Submit Your Listing
+            </div>
         <div className="card-preview-text">Card Preview</div>
         <div
           className="dog-card-container"
-          onMouseEnter={handleMouseEnter} // Hover event for Dog Card container
-          onMouseLeave={handleMouseLeave} // Hover event for Dog Card container
+          onMouseEnter={() => handleMouseEnter('Click here to upload new image')}
+          onMouseLeave={handleMouseLeave} 
           onClick={() => handleImageClick(currentImageIndex)}
         >
           <DogCard
@@ -93,20 +137,24 @@ const PostDog = () => {
             name={dogName}
             age={`${dogAge} ${dogUnit}`}
             breed={dogBreed}
-            dimImage={showTooltip} // Dim the image when tooltip is shown
+            dimImage={showTooltip} 
+            tooltipText={tooltipText} 
           />
         </div>
         <div className="additional-images-container">
         {dogImages.map((image, index) => (
             <div
             key={index}
-            className={`image-upload-square ${index === 0 ? 'profile-picture' : ''}`}
+            className={`image-upload-square ${index === 0 ? 'profile-picture' : ''} ${!image ? 'dimmed' : ''}`}
             onClick={() => handlePreviewClick(index)}
+            onMouseEnter={() => handleMouseEnter('Click here to upload image')}
+            onMouseLeave={handleMouseLeave}
           >
+            {!image && <div className="tooltip">Click here to upload image</div>}
             {image ? (
               <img src={image} alt={`Uploaded Image ${index + 1}`} />
             ) : (
-              <div>{index === 0 ? 'Main Photo' : 'Upload Picture'}</div>
+              <div>{index === 0 ? '' : ''}</div>
             )}
             {index === 0 && <div className="main-picture-text">Main Photo</div>}
             <input

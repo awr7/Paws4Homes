@@ -37,8 +37,8 @@ html, body {
     width: 100%;
     height: 100%;
     position: relative;
-    top: 294px; /* Adjust as needed */
-    left: 626px; /* Adjust as needed */
+    top: 294px; 
+    left: 626px; 
 }
 
 .input-group {
@@ -50,9 +50,9 @@ html, body {
 
 .input-pair {
     display: flex;
-    flex-direction: column; /* Stack label and input vertically */
+    flex-direction: column; 
     box-sizing: border-box;
-    margin-right: 20px; /* Spacing between each input-pair */
+    margin-right: 20px; 
 }
 
 .input-pair label {
@@ -61,7 +61,7 @@ html, body {
     font-family: 'Acme', sans-serif;
     font-weight: 400;
     line-height: 28.09px;
-    margin-bottom: 5px; /* Space between label and input */
+    margin-bottom: 5px; 
 }
 
 .input-pair input {
@@ -74,9 +74,9 @@ html, body {
     border: none;
     border-bottom: 1px solid #000; 
     background-color: transparent;
-    width: 390px; /* Adjust width as needed */
+    width: 390px; 
     padding: 8px 0; 
-    margin-bottom: 20px; /* Space below each input-pair */
+    margin-bottom: 20px; 
     outline: none;
 }
 
@@ -103,7 +103,6 @@ html, body {
     width: 50%; 
 }
 
-/* Styles for input and dropdown inside the .age-unit-group to make them take full width */
 .age-unit-group .input-pair input,
 .age-unit-group .input-pair select {
     width: 100%;
@@ -118,7 +117,7 @@ html, body {
     border: none;
     border-bottom: 1px solid #000;
     background-color: transparent;
-    width: 835px; /* or a specific width if required */
+    width: 835px; 
     margin-bottom: 20px;
     outline: none;
     resize: none;
@@ -206,31 +205,31 @@ html, body {
     height: 100%;
     top: 0;
     left: 0;
-    opacity: 0; /* Hide the input but keep it clickable */
+    opacity: 0; 
   }
   .additional-images-container::after {
     content: '';
     flex: auto;
 }
 
-/* Add this CSS to your postDog.css file or a separate CSS file */
 
 .tooltip {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-    z-index: 1000;
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 10;
+}
+
   
-  /* Add this CSS to show tooltip text */
+
   .image-upload-square.dimmed::before {
-    content: "Click to upload"; /* Tooltip text */
+    content: "Click to upload"; 
     position: absolute;
     top: 50%;
     left: 50%;
@@ -245,32 +244,26 @@ html, body {
   
   
   .dimmed {
-    opacity: 0.5; /* Adjust opacity to control the dimming effect */
-    cursor: pointer; /* Show pointer cursor when hovering dimmed images */
-    transition: opacity 0.3s ease; /* Add a transition for smooth dimming effect */
+    opacity: 0.5; 
+    cursor: pointer; 
+    transition: opacity 0.3s ease; 
   }
 
   .profile-picture {
     position: relative;
-    border: 3px solid #333; /* Adjust color and width as needed */
+    border: 3px solid #333; 
   }
   
   .profile-picture .main-picture-text {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%; /* Make the text container the same width as the .profile-picture */
-    background: rgba(0, 0, 0, 0.7); /* Adjust the transparency as needed */
+    width: 100%; 
+    background: rgba(0, 0, 0, 0.7); 
     color: white;
     padding: 5px;
     text-align: center;
     font-size: 14px;
     font-weight: bold;
-    box-sizing: border-box; /* Ensures padding is included in the width */
+    box-sizing: border-box; 
   }
-  
-  
-  
-  
-  
-  

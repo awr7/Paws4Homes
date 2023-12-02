@@ -22,6 +22,7 @@ const Login = ({handleLogin} ) => {
               headers: {
                   'Content-Type': 'application/json',
               },
+              credentials: 'include',
               body: JSON.stringify(payload),
           });
   

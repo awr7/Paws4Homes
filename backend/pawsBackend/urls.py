@@ -11,5 +11,7 @@ urlpatterns = [
     path('update-dog-listing/<int:listing_id>/', views.update_dog_listing, name='update_dog_listing'),
     path('delete-dog-listing/<int:listing_id>/', views.delete_dog_listing, name='delete_dog_listing'),
     path('get-dog-listing/<int:listing_id>/', views.get_dog_listing, name='get_dog_listing'),
+    path('get-user-details/', views.get_user_details, name='get_user_details'),
+    path('create-adoption-application/', views.create_adoption_application, name='create_adoption_application'),
     # ... other url patterns ...
 ]

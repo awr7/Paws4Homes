@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout
 from .models import DogListing
+from .models import AdoptionApplication
 from django.contrib.auth.decorators import login_required
 
 
@@ -225,3 +226,47 @@ def get_dog_listing(request, listing_id):
             return JsonResponse({'error': 'Listing not found'}, status=404)
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+@login_required
+def get_user_details(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+
+    return JsonResponse({
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'email': user.email,
+        'phone_number': user_profile.phone_number
+    })
+
+@csrf_exempt
+def create_adoption_application(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        # Fetch the DogListing object using the dogID
+        dog_id = data.get('dogID')
+        try:
+            dog = DogListing.objects.get(id=dog_id)
+        except DogListing.DoesNotExist:
+            return JsonResponse({'error': 'Dog not found'}, status=404)
+
+        # Create the AdoptionApplication object
+        application = AdoptionApplication.objects.create(
+            dog=dog,  
+            user=request.user,  
+            first_name=data['firstName'],
+            last_name=data['lastName'],
+            email=data['email'],
+            phone_number=data['phone'],
+            why_adopt=data['whyAdopt'],
+            alone_time=data['aloneTime'],
+            house_type=data['houseType'],
+            home_owner=data['homeOwner'],
+            owned_dog_before=data['dogOwner'],
+            additional_note=data.get('additionalNote', '')  
+        )
+
+        return JsonResponse({'success': 'Application submitted successfully'})
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)

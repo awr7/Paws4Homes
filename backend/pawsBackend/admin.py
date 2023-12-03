@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import UserProfile
 from .models import DogListing
+from .models import AdoptionApplication
 from django.utils.html import format_html
 
 class DogListingAdmin(admin.ModelAdmin):
@@ -18,3 +19,4 @@ class DogListingAdmin(admin.ModelAdmin):
 
 admin.site.register(DogListing, DogListingAdmin)
 admin.site.register(UserProfile)
+admin.site.register(AdoptionApplication)

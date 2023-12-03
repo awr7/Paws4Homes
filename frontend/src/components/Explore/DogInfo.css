@@ -23,7 +23,7 @@ html, body {
   .fetched-dog-name {
     color: #FF7F50;
     font-size: 48px;
-    font-family: 'Acme', sans-serif; /* Ensure 'Acme' font is imported or available */
+    font-family: 'Acme', sans-serif; 
     font-weight: 400;
     line-height: 30.15px;
     word-wrap: break-word;
@@ -98,6 +98,7 @@ html, body {
     justify-content: center;
     align-items: center;
     display: inline-flex;
+    cursor: pointer;
   }
   
   .application-button-text {

@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import './DogInfo.css';
 import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const DogInfo = () => {
@@ -9,7 +11,12 @@ const DogInfo = () => {
   const fetchedDataRefs = useRef([]);
   const [buttonTopPosition, setButtonTopPosition] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
+  const navigate = useNavigate();
 
+
+  const handleAdoptMeClick = () => {
+    navigate(`/adopt/${id}`, { state: { dogDetails } }); 
+  };
 
 
   useEffect(() => {
@@ -41,25 +48,21 @@ const DogInfo = () => {
     fetchedDataRefs.current.forEach((el, index) => {
       if (el) {
         const height = el.offsetHeight;
-        const lineTopPosition = el.offsetTop + height + 15; // 15px is the desired gap
+        const lineTopPosition = el.offsetTop + height + 15; 
   
-        // Create a horizontal line element or use an existing one
         const line = document.createElement('div');
         line.style.position = 'absolute';
         line.style.width = '779px';
         line.style.height = '1px';
         line.style.backgroundColor = 'black';
         line.style.top = `${lineTopPosition}px`;
-        line.style.left = '-309px'; // Adjust as per your layout
+        line.style.left = '-309px'; 
   
-        // Append the line to the container
         el.parentElement.appendChild(line);
   
-        // Update the last line's bottom position
-        lastLineBottom = lineTopPosition + 1; // 1px for the line height
+        lastLineBottom = lineTopPosition + 1; 
       }
   
-      // Position the button if this is the last fetched data element
       if (index === 6) {
         setButtonTopPosition(lastLineBottom + 48);
       }
@@ -68,9 +71,8 @@ const DogInfo = () => {
   
   
 
-  // Render the dog details
   if (!dogDetails) {
-    return <div>Loading...</div>; // Display a loading message or spinner while data is being fetched
+    return <div>Loading...</div>; 
   }
 
 
@@ -78,7 +80,6 @@ const DogInfo = () => {
   return (
     <div className="dog-info-container">
       <div className="beige-rectangle">
-        {/* Display dog details here */}
         <div className="fetched-dog-name">{dogDetails.name}</div>
         <div className="fetched-label-container">
         <div className="fetched-label">Breed: </div>
@@ -98,9 +99,9 @@ const DogInfo = () => {
         <div className="fetched-data" ref={el => fetchedDataRefs.current[4] = el}>{dogDetails.size}</div>
         <div className="fetched-data" ref={el => fetchedDataRefs.current[5] = el}>{dogDetails.date_added}</div>
         <div className="fetched-data" ref={el => fetchedDataRefs.current[6] = el}>{dogDetails.bio}</div>
-        <div className="application-button" style={{ top: `${buttonTopPosition}px` }}>
-  <span className="application-button-text">Adopt Me!</span>
-</div>
+        <div className="application-button" style={{ top: `${buttonTopPosition}px` }} onClick={handleAdoptMeClick}>
+            <span className="application-button-text">Adopt Me!</span>
+        </div>
       </div>
       <div className="fetched-dog-image-container">
       <img 

@@ -7,7 +7,8 @@ const InputPair = ({ label, id, placeholder, inputType, options, isTextArea, val
         ) : inputType === "dropdown" ? (
           <select id={id} value={value} onChange={onChange}>
             {options.map((option, index) => (
-              <option key={index} value={option.value}>{option.label}</option>
+              <option key={index} value={option.value}disabled={option.disabled} 
+              selected={option.selected}>{option.label}</option>
             ))}
           </select>
         ) : (

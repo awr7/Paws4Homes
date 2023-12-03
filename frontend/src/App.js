@@ -14,6 +14,7 @@ import ManageListings from './components/Dashboard/ManageListings';
 import PostDogPage from './components/Dashboard/postDog';
 import ExplorePage from './components/Explore/ExplorePage';
 import DogInfo from './components/Explore/DogInfo';
+import AdoptionApplication from './components/Adopt/AdoptionApplication';
 
 
 
@@ -75,6 +76,7 @@ const App = () => {
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/manage-listings/post" element={<PostDogPage />} />
         <Route path="/dog/:id" element={<DogInfo />} />
+        <Route path="/adopt/:id" element={<AdoptionApplication />} />
       </Routes>
     </Router>
   );

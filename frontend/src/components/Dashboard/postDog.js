@@ -132,14 +132,14 @@ const PostDog = () => {
           <div className="input-group">
             <div className="input-group age-unit-group">
             <InputPair label="Age" id="age" placeholder="Age" value={dogAge} onChange={(e) => setDogAge(e.target.value)} />
-            <InputPair label="Unit" id="age-unit" inputType="dropdown" options={[{ value: 'months', label: 'Months' }, { value: 'years', label: 'Years' }]} value={dogUnit} onChange={(e) => setDogUnit(e.target.value)} />
+            <InputPair label="Unit" id="age-unit" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'months', label: 'Months' }, { value: 'years', label: 'Years' }]} value={dogUnit} onChange={(e) => setDogUnit(e.target.value)} />
           </div>
           <InputPair label="Color" id="color" placeholder="Color" value={dogColor} onChange={(e) => setDogColor(e.target.value)} />
           </div>
           
           <div className="input-group">
-          <InputPair label="Gender" id="gender" inputType="dropdown" options={[{ value: 'female', label: 'Female' }, { value: 'male', label: 'Male' }]} value={dogGender} onChange={(e) => setDogGender(e.target.value)} />
-            <InputPair label="Size" id="size" inputType="dropdown" options={[{ value: 'small', label: 'Small' }, { value: 'medium', label: 'Medium' }, { value: 'large', label: 'Large' }]} value={dogSize} onChange={(e) => setDogSize(e.target.value)} />
+          <InputPair label="Gender" id="gender" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'female', label: 'Female' }, { value: 'male', label: 'Male' }]} value={dogGender} onChange={(e) => setDogGender(e.target.value)} />
+            <InputPair label="Size" id="size" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'small', label: 'Small' }, { value: 'medium', label: 'Medium' }, { value: 'large', label: 'Large' }]} value={dogSize} onChange={(e) => setDogSize(e.target.value)} />
           </div>
           <div className="input-group">
           <InputPair label="Bio" id="bio" placeholder="Add some fun facts about the dog!" isTextArea={true} value={dogBio} onChange={(e) => setDogBio(e.target.value)} />

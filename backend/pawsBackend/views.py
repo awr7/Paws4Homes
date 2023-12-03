@@ -8,6 +8,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout
+from .models import DogListing
+from django.contrib.auth.decorators import login_required
 
 
 @csrf_exempt
@@ -128,5 +130,74 @@ def submit_dog_listing(request):
         dog_listing.save()
 
         return JsonResponse({'success': 'Dog listing created successfully'}, status=201)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+def get_dog_listings(request):
+    if request.method == 'GET':
+        listings = DogListing.objects.all()  
+        listings_data = [{
+            'name': listing.name,
+            'breed': listing.breed,
+            'age': listing.age,
+            'age_unit': listing.age_unit,
+            'color': listing.color,
+            'size': listing.size,
+            'bio': listing.bio,
+            'gender': listing.gender,
+            'images': listing.images,  
+        } for listing in listings]
+        return JsonResponse(listings_data, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@login_required
+def get_user_dog_listings(request):
+    if request.method == 'GET':
+        # Filter listings by the logged-in user
+        user_listings = DogListing.objects.filter(user=request.user)
+        listings_data = [{
+            'id': listing.id,
+            'name': listing.name,
+            'breed': listing.breed,
+            'age': listing.age,
+            'age_unit': listing.age_unit,
+            'color': listing.color,
+            'size': listing.size,
+            'bio': listing.bio,
+            'gender': listing.gender,
+            'images': listing.images,  
+        } for listing in user_listings]
+        return JsonResponse(listings_data, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@csrf_exempt
+@login_required
+def update_dog_listing(request, listing_id):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        try:
+            dog_listing = DogListing.objects.get(id=listing_id, user=request.user)
+            # Update fields
+            for field, value in data.items():
+                setattr(dog_listing, field, value)
+            dog_listing.save()
+            return JsonResponse({'success': 'Listing updated successfully'}, status=200)
+        except DogListing.DoesNotExist:
+            return JsonResponse({'error': 'Listing not found'}, status=404)
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@csrf_exempt
+@login_required
+def delete_dog_listing(request, listing_id):
+    if request.method == 'DELETE':
+        try:
+            dog_listing = DogListing.objects.get(id=listing_id, user=request.user)
+            dog_listing.delete()
+            return JsonResponse({'success': 'Listing deleted successfully'}, status=200)
+        except DogListing.DoesNotExist:
+            return JsonResponse({'error': 'Listing not found'}, status=404)
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)

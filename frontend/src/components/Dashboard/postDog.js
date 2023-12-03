@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect  } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './postDog.css';
 import InputPair from './InputPair';
 import DogCard from '../Explore/DogCard';
@@ -18,6 +19,25 @@ const PostDog = () => {
     const [dogGender, setDogGender] = useState('');
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipText, setTooltipText] = useState('');
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const listingToEdit = location.state?.listing;
+
+    useEffect(() => {
+      console.log(listingToEdit);
+      if (listingToEdit) {
+          setDogName(listingToEdit.name);
+          setDogAge(listingToEdit.age);
+          setDogUnit(listingToEdit.age_unit);
+          setDogBreed(listingToEdit.breed);
+          setDogBio(listingToEdit.bio);
+          setDogSize(listingToEdit.size);
+          setDogColor(listingToEdit.color);
+          setDogGender(listingToEdit.gender);
+          setDogImages(listingToEdit.images);
+      }
+  }, [listingToEdit]);
 
     const handleImageClick = (index) => {
         setCurrentImageIndex(index);
@@ -71,9 +91,14 @@ const PostDog = () => {
             images: dogImages.filter(Boolean) 
         };
     
+        const url = listingToEdit
+        ? `http://localhost:8000/update-dog-listing/${listingToEdit.id}/`
+        : 'http://localhost:8000/submit-dog-listing/';
+        const method = listingToEdit ? 'PUT' : 'POST';
+
         try {
-            const response = await fetch('http://localhost:8000/submit-dog-listing/', {
-                method: 'POST',
+            const response = await fetch(url, {
+                method: method,
                 headers: {
                     'Content-Type': 'application/json',
                     // Include CSRF token and authentication headers as needed
@@ -82,19 +107,17 @@ const PostDog = () => {
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
-    
+
             if (response.ok) {
-                // Handle success
-                console.log('Dog listing created successfully!', data);
+                console.log('Dog listing processed successfully!', data);
+                navigate('/manage-listings'); // Redirect to listings page or as appropriate
             } else {
-                // Handle errors
                 console.error('Error:', data.error);
             }
         } catch (error) {
             console.error('Network error:', error);
         }
     };
-
   return (
     <div className="manage-container">
       <div className="beige-rectangle">

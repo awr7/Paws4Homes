@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import './ExplorePage.css';
 import CustomDropdown from './CustomDropdown';
 import DogCard from './DogCard';
@@ -13,6 +13,25 @@ const ExplorePage = () => {
   const [size, setSize] = useState('Any'); 
   const [gender, setGender] = useState('Any'); 
   const [color, setColor] = useState('Any'); 
+
+  const [dogListings, setDogListings] = useState([]);
+
+  useEffect(() => {
+    const fetchDogListings = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/get-dog-listings/'); // Adjust URL as needed
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const listings = await response.json();
+        setDogListings(listings);
+      } catch (error) {
+        console.error('Error fetching dog listings:', error);
+      }
+    };
+
+    fetchDogListings();
+  }, []);
 
   return (
     <div className="explore-container">
@@ -48,17 +67,22 @@ const ExplorePage = () => {
             <div><CustomDropdown label="Color" options={['Any', 'Black', 'White']} onChange={(e) => setColor(e.target.value)} /></div>
         </div>
         <div className="dog-cards-container">
-
-          <DogCard image={kobe} name="Kobe" age="1" breed="Husky" />
-          <DogCard image={kobe} name="Kobe" age="1" breed="Husky" />
-          <DogCard image={kobe} name="Kobe" age="1" breed="Husky" />
-          <DogCard image={kobe} name="Kobe" age="1" breed="Husky" />
-          <DogCard image={kobe} name="Kobe" age="1" breed="Husky" />
-          <DogCard image={kobe} name="Kobe" age="1" breed="Husky" />
-          <DogCard image={kobe} name="Kobe" age="1" breed="Husky" />
-          <DogCard image={kobe} name="Kobe" age="1" breed="Husky" />
-          
-        </div>
+        {dogListings.length > 0 ? (
+          dogListings.map((listing, index) => (
+            <DogCard
+              key={index}
+              image={listing.images.length > 0 ? listing.images[0] : kobe}
+              name={listing.name}
+              age={`${listing.age} ${listing.age_unit}`}
+              breed={listing.breed}
+            />
+          ))
+        ) : (
+          <div className="no-listings-message">
+            No dogs listed at the moment.
+          </div>
+        )}
+      </div>
       </div>
     </div>
   );

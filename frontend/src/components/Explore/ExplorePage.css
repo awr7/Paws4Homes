@@ -273,3 +273,11 @@
     word-wrap: break-word;
     text-align: center; 
   }
+
+  .no-listings-message {
+    text-align: center;
+    font-size: 20px;
+    color: #666;
+    padding: 20px;
+  }
+  

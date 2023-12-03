@@ -137,6 +137,7 @@ def get_dog_listings(request):
     if request.method == 'GET':
         listings = DogListing.objects.all()  
         listings_data = [{
+            'id': listing.id,
             'name': listing.name,
             'breed': listing.breed,
             'age': listing.age,
@@ -197,6 +198,29 @@ def delete_dog_listing(request, listing_id):
             dog_listing = DogListing.objects.get(id=listing_id, user=request.user)
             dog_listing.delete()
             return JsonResponse({'success': 'Listing deleted successfully'}, status=200)
+        except DogListing.DoesNotExist:
+            return JsonResponse({'error': 'Listing not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def get_dog_listing(request, listing_id):
+    if request.method == 'GET':
+        try:
+            listing = DogListing.objects.get(id=listing_id)
+            listing_data = {
+                'id': listing.id,
+                'name': listing.name,
+                'breed': listing.breed,
+                'age': listing.age,
+                'age_unit': listing.age_unit,
+                'color': listing.color,
+                'size': listing.size,
+                'bio': listing.bio,
+                'gender': listing.gender,
+                'images': listing.images, 
+                'date_added': listing.date_added.strftime("%m-%d-%Y")  
+            }
+            return JsonResponse(listing_data)
         except DogListing.DoesNotExist:
             return JsonResponse({'error': 'Listing not found'}, status=404)
     else:

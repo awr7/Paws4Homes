@@ -8,11 +8,12 @@ import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
 import ShelterBreederSignup from './components/Signup/ShelterBreederSignup';
 import CustomerSignup from './components/Signup/CustomerSignup';
-import MyAccount from './components/Dashboard/MyAccount'
-import Inbox  from './components/Dashboard/Inbox'
-import ManageListings from './components/Dashboard/ManageListings'
-import PostDogPage from './components/Dashboard/postDog'
+import MyAccount from './components/Dashboard/MyAccount';
+import Inbox  from './components/Dashboard/Inbox';
+import ManageListings from './components/Dashboard/ManageListings';
+import PostDogPage from './components/Dashboard/postDog';
 import ExplorePage from './components/Explore/ExplorePage';
+import DogInfo from './components/Explore/DogInfo';
 
 
 
@@ -73,6 +74,7 @@ const App = () => {
         <Route path="/manage-listings" element={<ManageListings />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/manage-listings/post" element={<PostDogPage />} />
+        <Route path="/dog/:id" element={<DogInfo />} />
       </Routes>
     </Router>
   );

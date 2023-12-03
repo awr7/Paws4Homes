@@ -4,6 +4,7 @@ import CustomDropdown from './CustomDropdown';
 import DogCard from './DogCard';
 import magnifyGlass from '../../assets/img/maginifyingGlass.png';
 import kobe from '../../assets/img/kobePup.jpg';
+import { Link } from 'react-router-dom';
 
 const ExplorePage = () => {
 
@@ -69,13 +70,14 @@ const ExplorePage = () => {
         <div className="dog-cards-container">
         {dogListings.length > 0 ? (
           dogListings.map((listing, index) => (
-            <DogCard
-              key={index}
-              image={listing.images.length > 0 ? listing.images[0] : kobe}
-              name={listing.name}
-              age={`${listing.age} ${listing.age_unit}`}
-              breed={listing.breed}
-            />
+            <Link to={`/dog/${listing.id}`} key={index}> 
+              <DogCard
+                image={listing.images.length > 0 ? listing.images[0] : kobe}
+                name={listing.name}
+                age={`${listing.age} ${listing.age_unit}`}
+                breed={listing.breed}
+              />
+            </Link>
           ))
         ) : (
           <div className="no-listings-message">

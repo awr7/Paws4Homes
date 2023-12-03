@@ -18,6 +18,7 @@ class DogListing(models.Model):
     bio = models.TextField(blank=True)
     gender = models.CharField(max_length=50)
     images = models.JSONField()  # Store image URLs or paths in JSON format
+    date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

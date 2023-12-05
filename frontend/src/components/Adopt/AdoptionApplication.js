@@ -125,13 +125,13 @@ const handleSubmit = async (event) => {
                 </div>
 
     <div className="adoption-input-group">
-            <InputPair label="On average, how many hours will the dog be home alone?" id="aloneTime" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: '<1', label: 'Less than 1 hour' }, { value: '1-2', label: 'Between 1-2 hours' }, { value: '2-4', label: 'Between 2-4 hours' }, { value: '>5', label: 'More than 5 hours' }]} value={aloneTime} onChange={(e) => setAloneTime(e.target.value)} />
-                    <InputPair label="Do you live in a?" id="houseType" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'house', label: 'House' }, { value: 'apartment', label: 'Apartment' }, { value: 'other', label: 'Other' }]} value={houseType} onChange={(e) => setHouseType(e.target.value)} />
+            <InputPair label="On average, how many hours will the dog be home alone?" id="aloneTime" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'Less than 1 hour', label: 'Less than 1 hour' }, { value: 'Between 1-2 hours', label: 'Between 1-2 hours' }, { value: 'Betwen 2-4 hours', label: 'Between 2-4 hours' }, { value: 'More than 5 hours', label: 'More than 5 hours' }]} value={aloneTime} onChange={(e) => setAloneTime(e.target.value)} />
+                    <InputPair label="Do you live in a?" id="houseType" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'House', label: 'House' }, { value: 'Apartment', label: 'Apartment' }, { value: 'Other', label: 'Other' }]} value={houseType} onChange={(e) => setHouseType(e.target.value)} />
                 </div>
 
     <div className="adoption-input-group">
-    <InputPair label="Do you own your home?" id="homeOwner" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]} value={homeOwner} onChange={(e) => setHomeOwner(e.target.value)} />
-                    <InputPair label="Have you owned a dog before?" id="dogOwner" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]} value={dogOwner} onChange={(e) => setDogOwner(e.target.value)} />
+    <InputPair label="Do you own your home?" id="homeOwner" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'Yes', label: 'Yes' }, { value: 'No', label: 'No' }]} value={homeOwner} onChange={(e) => setHomeOwner(e.target.value)} />
+                    <InputPair label="Have you owned a dog before?" id="dogOwner" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'Yes', label: 'Yes' }, { value: 'No', label: 'No' }]} value={dogOwner} onChange={(e) => setDogOwner(e.target.value)} />
                 </div>
 
     <div className="adoption-input-group">

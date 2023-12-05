@@ -15,6 +15,8 @@ import PostDogPage from './components/Dashboard/postDog';
 import ExplorePage from './components/Explore/ExplorePage';
 import DogInfo from './components/Explore/DogInfo';
 import AdoptionApplication from './components/Adopt/AdoptionApplication';
+import Messages from './components/Dashboard/Messages';
+import ApplicationDetails from './components/Applications/ApplicationDetails';
 
 
 
@@ -33,11 +35,13 @@ const App = () => {
   setIsBusinessAccount(businessAccount);
   }, []);
 
-  const handleLogin = (isBusiness = false) => {
+  const handleLogin = (userId, isBusiness = false) => {
     setIsLoggedIn(true);
     setIsBusinessAccount(isBusiness);
     localStorage.setItem('isLoggedIn', 'true'); // Save login state to local storage
     localStorage.setItem('isBusinessAccount', JSON.stringify(isBusiness));  
+    localStorage.setItem('userId', userId);
+    console.log('userID in App.js:', userId);
   };
 
   const handleLogout = async () => {
@@ -52,6 +56,7 @@ const App = () => {
       setIsBusinessAccount(false);
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('isBusinessAccount');
+      localStorage.removeItem('userId')
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -77,6 +82,8 @@ const App = () => {
         <Route path="/manage-listings/post" element={<PostDogPage />} />
         <Route path="/dog/:id" element={<DogInfo />} />
         <Route path="/adopt/:id" element={<AdoptionApplication />} />
+        <Route path="/messages/:receiverID" element={<Messages />} />
+        <Route path="/applications/:id" element={<ApplicationDetails />} />
       </Routes>
     </Router>
   );

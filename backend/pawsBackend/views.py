@@ -8,9 +8,12 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout
-from .models import DogListing
-from .models import AdoptionApplication
+from .models import DogListing, AdoptionApplication, Message
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from django.conf import settings
 
 
 @csrf_exempt
@@ -25,11 +28,17 @@ def login_user(request):
             auth_login(request, user) 
             user_profile = UserProfile.objects.get(user=user)
             is_business_account = user_profile.is_business_account if user_profile else False
-            return JsonResponse({'success': True, 'isBusiness': is_business_account}, status=200)
+            print(user.id)
+            return JsonResponse({
+                'success': True, 
+                'isBusiness': is_business_account,
+                'userId': user.id  # Include the user's ID in the response
+            }, status=200)
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=401)
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
 
 @csrf_exempt
 def logout_user(request):
@@ -267,6 +276,172 @@ def create_adoption_application(request):
             additional_note=data.get('additionalNote', '')  
         )
 
-        return JsonResponse({'success': 'Application submitted successfully'})
+        application_id = application.id  
+        application_url = f"/applications/{application_id}"  
 
+        initial_message_content = f"New adoption application from {request.user.username} for {dog.name}. <a href='{application_url}'>Click here to view the application.</a>"
+        Message.objects.create(
+            sender=request.user,
+            receiver=dog.user,
+            content=initial_message_content
+        )
+
+        return JsonResponse({'success': 'Application submitted successfully'})
+    
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@csrf_exempt
+@login_required
+def send_message(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            receiver_id = data['receiver']
+            content = data['content']
+
+            if not receiver_id or not content:
+                return JsonResponse({'error': 'Missing reciever or content'}, status =400)
+
+            sender = request.user  # Use the authenticated user as the sender
+            receiver = User.objects.get(id=receiver_id)
+
+            message = Message.objects.create(
+                sender=sender,
+                receiver=receiver,
+                content=content
+            )
+            return JsonResponse({'success': 'Message sent successfully'}, status=200)
+
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Receiver not found'}, status=404)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'error': 'Invalid JSON: ' + str(e)}, status=400)
+        except Exception as e:
+            print("Error in send_message:", e)
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@login_required
+def get_messages(request, user_id=None):
+    user = request.user
+
+    # Decide the query based on whether a specific user_id is given
+    messages = (Message.objects
+                .filter(Q(sender=user) & Q(receiver_id=user_id) | Q(sender_id=user_id) & Q(receiver=user))
+                .order_by('-timestamp') if user_id else
+                Message.objects
+                .filter(Q(sender=user) | Q(receiver=user))
+                .order_by('-timestamp'))
+
+    messages_data = []
+    for message in messages:
+        sender_profile = UserProfile.objects.get(user=message.sender)
+
+        # Decide the sender's name based on account type
+        sender_name = sender_profile.company_name if sender_profile.is_business_account else f"{message.sender.first_name} {message.sender.last_name}"
+
+        message_data = {
+            'id': message.id,
+            'sender_id': message.sender.id,
+            'receiver_id': message.receiver.id,
+            'sender_name': sender_name,
+            'content': message.content,
+            'timestamp': message.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+            'is_read': message.is_read,
+        }
+
+        # If a specific user_id is provided, add the profile image of the receiver
+        if user_id:
+            # The receiver is the other person in the conversation
+            receiver = message.receiver if message.sender == user else message.sender
+            receiver_profile = UserProfile.objects.get(user=receiver)
+
+            # Get the full URL for the receiver's profile image
+            receiver_profile_pic = request.build_absolute_uri(settings.STATIC_URL + receiver_profile.profile_image)
+            message_data['receiver_profile_pic'] = receiver_profile_pic
+
+        messages_data.append(message_data)
+
+    return JsonResponse(messages_data, safe=False, status=200)
+
+
+
+@login_required
+def get_adoption_application(request, application_id):
+    # Fetch the application, or return 404 if not found
+    application = get_object_or_404(AdoptionApplication, pk=application_id)
+
+    dog = application.dog
+
+    owner_profile = UserProfile.objects.get(user=dog.user)
+
+    application_data = {
+        "id": application.id,
+        "applicant_id": application.user.id,
+        "dog": {
+            "id": dog.id,
+            "user_id": dog.user.id,
+            "name": dog.name,
+            "breed": dog.breed,
+            "age": dog.age,
+            "age_unit": dog.age_unit,
+            "color": dog.color,
+            "size": dog.size,
+            "bio": dog.bio,
+            "gender": dog.gender,
+            "images": dog.images,
+            "date_added": dog.date_added.strftime("%Y-%m-%d %H:%M:%S")
+        },
+
+        "owner_contact_info": {
+            "email": dog.user.email,
+            "phone_number": owner_profile.phone_number
+        },
+
+        "first_name": application.first_name,
+        "last_name": application.last_name,
+        "email": application.email,
+        "phone_number": application.phone_number,
+        "why_adopt": application.why_adopt,
+        "alone_time": application.alone_time,
+        "house_type": application.house_type,
+        "home_owner": application.home_owner,
+        "owned_dog_before": application.owned_dog_before,
+        "additional_note": application.additional_note
+    }
+
+    return JsonResponse(application_data)
+
+@login_required
+def get_user_profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    user_profile = get_object_or_404(UserProfile, user=user)
+
+    default_image = 'images/defaultBusiness.png' if user_profile.is_business_account else 'images/defaultCustomer.png'
+    
+    profile_image_url = settings.STATIC_URL + user_profile.profile_image
+
+    data = {
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'phone_number': user_profile.phone_number,
+        'company_name': user_profile.company_name,
+        'is_business_account': user_profile.is_business_account,
+        'profile_image': request.build_absolute_uri(profile_image_url)
+    }
+    return JsonResponse(data)
+
+@csrf_exempt
+@login_required
+def mark_messages_as_read(request, receiver_id):
+    # Mark all messages in the conversation as read
+    Message.objects.filter(sender_id=receiver_id, receiver=request.user, is_read=False).update(is_read=True)
+    return JsonResponse({'success': True})
+
+@login_required
+def get_unread_message_count(request):
+    unread_count = Message.objects.filter(receiver=request.user, is_read=False).count()
+    return JsonResponse({'unread_count': unread_count})

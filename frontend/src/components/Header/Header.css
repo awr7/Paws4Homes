@@ -27,11 +27,11 @@ body, html {
   width: 54rem; /* 540px */
   height: 2.8rem; /* 28px */
   position: absolute;
-  left: 130rem; /* 851px */
+  left: 125rem; /* 851px */
   top: 3.8rem; /* 38px */
-  display: inline-flex;
+  display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   gap: 5rem; /* 50px */
 }
 
@@ -43,6 +43,33 @@ body, html {
   font-weight: 400;
   line-height: 2.75rem; /* 27.5px */
   word-wrap: break-word;
+  margin-right: 2rem; 
+  display: flex;
+  align-items: center; 
+  position: relative;
+  white-space: nowrap;
+}
+
+.unread-count {
+  background-color: #ff0000;
+  color: #ffffff;
+  border-radius: 50%;
+  padding: 0.4rem; 
+  font-size: 1.2rem; 
+  position: absolute;
+  top: -0.8rem; 
+  right: -1.6rem; 
+  width: 1.6rem;
+  height: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.unread-count, .unread-count-dropdown {
+  font-weight: bold;
+  margin-left: 4px;
+  color: red;
 }
 
 .brand-name {
@@ -82,8 +109,8 @@ body, html {
 .dropdown-menu {
   display: none; /* Initially hidden */
   position: absolute;
-  top: -40%; 
-  left: 0;
+  top: -14px; 
+  left: -20px;
   height: 200px;
   width: 177px;
   background: linear-gradient( rgba(255, 127, 80, 0.47) 0%, rgba(0, 128, 128, 0.47) 100%);

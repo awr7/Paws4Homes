@@ -33,7 +33,8 @@ const Login = ({handleLogin} ) => {
           const data = await response.json();
           
           if (response.ok) {
-            handleLogin(data.isBusiness);  // Call the handleLogin passed from App.js
+            handleLogin(data.userId, data.isBusiness); 
+            console.log('userID in Login.js: ', data.userId) // Call the handleLogin passed from App.js
             navigate('/');  // Redirect to homepage
 
           } else {

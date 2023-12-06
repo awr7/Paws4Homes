@@ -20,5 +20,8 @@ urlpatterns = [
     path('user_profile/<int:user_id>/', views.get_user_profile, name='get_user_profile'),
     path('mark_messages_as_read/<int:receiver_id>/', views.mark_messages_as_read, name='mark_messages_as_read'),
     path('get_unread_message_count/', views.get_unread_message_count, name='get_unread_message_count'),
-    # ... other url patterns ...
+    path('update_user_profile/<int:user_id>/', views.user_profile_update, name='user_profile_update'),
+    path('change_password/', views.change_password, name='change_password'),
+    path('upload-profile-picture/', views.upload_profile_picture, name= 'upload_profile_picture'),
+    path('match-dog/', views.match_dog, name='match_dog'),
 ]

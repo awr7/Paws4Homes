@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from pawsBackend.models import UserProfile, DogListing
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
@@ -14,7 +14,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+import logging
+from django.core.files.storage import default_storage
 
+logger = logging.getLogger(__name__)
 
 @csrf_exempt
 def login_user(request):
@@ -417,8 +420,6 @@ def get_adoption_application(request, application_id):
 def get_user_profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     user_profile = get_object_or_404(UserProfile, user=user)
-
-    default_image = 'images/defaultBusiness.png' if user_profile.is_business_account else 'images/defaultCustomer.png'
     
     profile_image_url = settings.STATIC_URL + user_profile.profile_image
 
@@ -445,3 +446,231 @@ def mark_messages_as_read(request, receiver_id):
 def get_unread_message_count(request):
     unread_count = Message.objects.filter(receiver=request.user, is_read=False).count()
     return JsonResponse({'unread_count': unread_count})
+
+@csrf_exempt
+@login_required
+def user_profile_update(request, user_id):
+    print('request user id', request.user.id, ' user_id=', user_id)
+
+    if request.method != 'PUT':
+        return HttpResponseNotAllowed(['PUT'])
+    
+    user_id = int(user_id)
+
+
+    try:
+        data = json.loads(request.body)
+        
+        if request.user.id != user_id:
+            return JsonResponse({'status': 'error', 'message': 'Unauthorized'}, status=403)
+
+        user = User.objects.get(pk=user_id)
+        profile, created = UserProfile.objects.get_or_create(user=user)
+
+        # Update User fields
+        user.first_name = data.get('first_name', user.first_name)
+        user.last_name = data.get('last_name', user.last_name)
+        user.save()
+
+        # Update UserProfile fields
+        if profile.is_business_account:
+            profile.company_name = data.get('company_name', profile.company_name)
+        profile.phone_number = data.get('phone_number', profile.phone_number)
+        profile.save()
+
+        return JsonResponse({'status': 'success', 'message': 'Profile updated successfully.'})
+
+    except User.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON format.'}, status=400)
+    except Exception as e:
+        # Log the exception for debugging purposes
+        # e.g., logger.error(f"Error updating user profile: {str(e)}")
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+@csrf_exempt
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_password = data.get('newPassword')
+
+        # Validate the new password
+        try:
+            validate_password(new_password)
+        except ValidationError as e:
+            return JsonResponse({'error': e.messages}, status=400)
+
+        try:
+            user = request.user
+            user.set_password(new_password)
+            user.save()
+
+            # Invalidate the current session after changing the password
+            logout(request)
+
+            return JsonResponse({'success': 'Password changed successfully. Please log in again.'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+        
+@login_required
+@csrf_exempt
+def upload_profile_picture(request):
+    if request.method == 'POST' and request.FILES['image']:
+        image = request.FILES['image']
+        file_path = default_storage.save('path/to/save/image', image)
+        
+        # Update the user's profile picture URL in the database
+        user_profile = UserProfile.objects.get(user=request.user)
+        user_profile.profile_image = file_path
+        user_profile.save()
+
+        return JsonResponse({'success': True, 'image_url': file_path})
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+breed_characteristics = {
+    'Husky': {
+    'activityLevel': 'high',
+    'sizePreference': 'large',
+    'otherPets': 'yes',
+    'childrenAtHome': 'yes',
+    'furPreference': 'long',
+    'sheddingTolerance': 'high',
+    'livingSituation': 'house_with_yard',
+    'purpose': 'companionship'
+},
+
+    'Golden Retriever' : {
+    'activityLevel': 'moderate',
+    'sizePreference': 'large',
+    'otherPets': 'yes',
+    'childrenAtHome': 'yes',
+    'furPreference': 'long',
+    'sheddingTolerance': 'high',
+    'livingSituation': 'house_with_yard',
+    'purpose': 'companionship'
+},
+
+'French Bulldog': {
+    'activityLevel': 'low',
+    'sizePreference': 'small',
+    'otherPets': 'yes',
+    'childrenAtHome': 'yes',
+    'furPreference': 'short',
+    'sheddingTolerance': 'minimal',
+    'livingSituation': 'apartment',
+    'purpose': 'companionship'
+},
+
+'Border Collie': {
+    'activityLevel': 'high',
+    'sizePreference': 'medium',
+    'otherPets': 'yes',
+    'childrenAtHome': 'yes',
+    'furPreference': 'long',
+    'sheddingTolerance': 'high',
+    'livingSituation': 'farm_rural',
+    'purpose': 'working'
+},
+
+'Dachshund': {
+    'activityLevel': 'moderate',
+    'sizePreference': 'small',
+    'otherPets': 'no',
+    'childrenAtHome': 'no',
+    'furPreference': 'short',
+    'sheddingTolerance': 'minimal',
+    'livingSituation': 'yard',
+    'lookingFor': 'companionship'
+}
+}
+
+@login_required
+@csrf_exempt
+def match_dog(request):
+    if request.method == 'POST':
+        print('We here')
+        data = json.loads(request.body)
+        # User's preferences
+        user_preferences = {
+            'activityLevel': data.get('activityLevel'),
+            'dailyTime' : data.get('dailyTime'),
+            'sizePreference': data.get('sizePreference'),
+            'otherPets': data.get('otherPets'),
+            'preferredAge': data.get('preferredAge'),
+            'childrenAtHome': data.get('childrenAtHome'),
+            'furPreference': data.get('furPreference'),
+            'sheddingTolerance': data.get('sheddingTolerance'),
+            'livingSituation': data.get('livingSituation'),
+            'lookingFor': data.get('lookingFor'),
+
+        }
+
+        matched_dogs = []
+        for dog in DogListing.objects.all():
+            print('We here2')
+            points = 0
+            breed_info = breed_characteristics.get(dog.breed, {})
+            print('breed info: ', breed_info)
+            print('user prefences: ', user_preferences)
+
+        # Check size match
+        if breed_info.get('sizePreference') == user_preferences['sizePreference']:
+            points += 10
+            print('10 points added for size')
+
+        # Check activity level match
+        if breed_info.get('activityLevel') == user_preferences['activityLevel']:
+            points += 10
+
+        # Check other pets compatibility
+        if breed_info.get('otherPets') == user_preferences['otherPets']:
+            points += 5
+
+        # Check children at home compatibility
+        if breed_info.get('childrenAtHome') == user_preferences['childrenAtHome']:
+            points += 5
+
+        # Check fur preference
+        if breed_info.get('furPreference') == user_preferences['furPreference']:
+            points += 5
+
+        # Check shedding tolerance
+        if breed_info.get('sheddingTolerance') == user_preferences['sheddingTolerance']:
+            points += 5
+
+        # Check living situation
+        if breed_info.get('livingSituation') == user_preferences['livingSituation']:
+            points += 5
+
+        # Check purpose
+        if breed_info.get('purpose') == user_preferences['lookingFor']:
+            points += 5
+
+            matched_dogs.append({'dog': dog, 'points': points})
+        print('dog points: ',points)
+        # Sort and return top matches
+        matched_dogs.sort(key=lambda x: x['points'], reverse=True)
+        
+        # Return the dog with the highest points
+        top_dog = matched_dogs[0]['dog'] if matched_dogs else None
+        if top_dog:
+            dog_data = {
+                'id': top_dog.id,
+                'name': top_dog.name,
+                'breed': top_dog.breed,
+                'age': top_dog.age,
+                'color': top_dog.color,
+                'size': top_dog.size,
+                'bio': top_dog.bio,
+                'images': top_dog.images,
+                'points': matched_dogs[0]['points']
+            }
+            return JsonResponse({'matchedDog': dog_data})
+        else:
+            return JsonResponse({'error': 'No matching dogs found'}, status=404)
+
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)

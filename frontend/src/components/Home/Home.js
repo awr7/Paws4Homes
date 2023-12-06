@@ -27,6 +27,10 @@ const Home = () => {
   const handleExploreClick = () => {
     navigate('/explore');
   };
+  
+  const handleMatchClick = () => {
+    navigate('/match-with-a-dog');
+  };
 
   const [index, setIndex] = useState(0);
 
@@ -76,7 +80,7 @@ const Home = () => {
 
         <div className="buttons">
         <button className="btn explore" onClick={handleExploreClick}>Explore dogs</button>
-          <button className="btn match">Match with a dog</button>
+          <button className="btn match" onClick={handleMatchClick}>Match with a dog</button>
         </div>
       </div>
 

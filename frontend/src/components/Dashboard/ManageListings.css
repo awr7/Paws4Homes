@@ -91,6 +91,7 @@ html, body {
   top: 545px;
   left: 50%;
   transform: translateX(-50%);
+  cursor: pointer;
 }
 
 .edit-profile-text {

@@ -17,6 +17,8 @@ import DogInfo from './components/Explore/DogInfo';
 import AdoptionApplication from './components/Adopt/AdoptionApplication';
 import Messages from './components/Dashboard/Messages';
 import ApplicationDetails from './components/Applications/ApplicationDetails';
+import MatchPage from './components/Match/MatchPage';
+import Matched from './components/Match/Matched';
 
 
 
@@ -84,6 +86,8 @@ const App = () => {
         <Route path="/adopt/:id" element={<AdoptionApplication />} />
         <Route path="/messages/:receiverID" element={<Messages />} />
         <Route path="/applications/:id" element={<ApplicationDetails />} />
+        <Route path="/match-with-a-dog" element={<MatchPage />} />
+        <Route path="/matched" element={<Matched />} />
       </Routes>
     </Router>
   );

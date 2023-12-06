@@ -1,5 +1,5 @@
 import './Inbox.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './Messages.css';
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -14,6 +14,7 @@ const loggedInUserId = localStorage.getItem('userId');
 console.log("Logged in user ID:", loggedInUserId);
 const [userData, setUserData] = useState({}); // Initialize as an empty object
 const [isLoading, setIsLoading] = useState(true);
+const navigate = useNavigate();
 
 
 const MAX_CHAR_LIMIT = 150;
@@ -147,9 +148,11 @@ const MAX_CHAR_LIMIT = 150;
             markMessagesAsRead();
         }
     }, [receiverID]);
-    
 
-      
+
+    const handleEditProfileClick = () => {
+      navigate('/my-account');
+    };
 
   return (
     <div className="inbox-container">
@@ -165,9 +168,9 @@ const MAX_CHAR_LIMIT = 150;
         <img src={userProfilePic} alt="Profile" className="circle-image"/>
           </div>
           <div className="email-text">{userData.email}</div>
-          <div className="edit-profile-button">
-                <div className="edit-profile-text">Edit profile</div>
-                </div>
+          <div className="edit-profile-button" onClick={handleEditProfileClick}>
+            <div className="edit-profile-text">Edit profile</div>
+          </div>
               </div>
               <div className="inbox-rectangle">
         <div className="chat-box">

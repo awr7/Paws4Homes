@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import paw from '../../assets/img/PawIconColor.png';
 import magnifyGlass from '../../assets/img/maginifyingGlass.png';
 import './Inbox.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const InboxPage = () => {
@@ -11,6 +10,7 @@ const InboxPage = () => {
   const loggedInUserId = localStorage.getItem('userId');
   const [userData, setUserData] = useState({});
   const [userProfilePic, setUserProfilePic] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -77,6 +77,10 @@ const InboxPage = () => {
     }
   }, [loggedInUserId]);
 
+  const handleEditProfileClick = () => {
+    navigate('/my-account');
+  };
+
   return (
     <div className="inbox-container">
       <div className="white-rectangle">
@@ -88,9 +92,9 @@ const InboxPage = () => {
         <img src={userProfilePic} alt="Profile" className="circle-image"/>
           </div>
           <div className="email-text">{userData.email}</div>
-          <div className="edit-profile-button">
-                <div className="edit-profile-text">Edit profile</div>
-                </div>
+          <div className="edit-profile-button" onClick={handleEditProfileClick}>
+            <div className="edit-profile-text">Edit profile</div>
+          </div>
               </div>
               <div className="inbox-rectangle">
               <div className="inbox-search-bar">

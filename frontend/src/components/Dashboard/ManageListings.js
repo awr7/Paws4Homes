@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './ManageListings.css';
 import { useNavigate  } from 'react-router-dom';
-import paw from '../../assets/img/PawIconColor.png';
 import magnifyGlass from '../../assets/img/maginifyingGlass.png';
 
 const ManageListingsPage = () => {
   const navigate = useNavigate();
 
   const [userDogListings, setUserDogListings] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [userProfilePic, setUserProfilePic] = useState('');
+  const loggedInUserId = localStorage.getItem('userId');
 
   const navigateToPostDog = () => {
     navigate('/manage-listings/post');
@@ -63,18 +65,51 @@ const ManageListingsPage = () => {
     setActiveDropdown(activeDropdown === listingId ? null : listingId);
 };
 
+useEffect(() => {
+  const fetchUserProfile = async () => {
+    try {
+      console.log('Fetching user profile...');
+      const response = await fetch(`http://localhost:8000/user_profile/${loggedInUserId}/`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const userData = await response.json();
+      console.log('User profile data:', userData); // Log the fetched user data
+      setUserData(userData);
+      setUserProfilePic(userData.profile_image);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
+  if (loggedInUserId) {
+    fetchUserProfile();
+  }
+}, [loggedInUserId]);
+
+const handleEditProfileClick = () => {
+  navigate('/my-account');
+};
+
   return (
     <div className="manage-container">
       <div className="white-rectangle">
         <div className="profile-rectangle">
-        <div className="welcome-text">Welcome, Angel</div>
+        <div className="welcome-text"> 
+        Welcome, {userData.is_business_account ? userData.company_name : `${userData.first_name}`}
+        </div>
         <div className="white-circle">
-            <img src={paw} alt="Paw Icon" className="circle-image"/>
+          <img src={userProfilePic} alt="Profile" className="circle-image"/>
           </div>
-          <div className="email-text">angel@gmail.com</div>
-          <div className="edit-profile-button">
-                <div className="edit-profile-text">Edit profile</div>
-            </div>
+          <div className="email-text">{userData.email}</div>
+          <div className="edit-profile-button" onClick={handleEditProfileClick}>
+            <div className="edit-profile-text">Edit profile</div>
+          </div>
         </div>
         <div className="listings-rectangle">
           {userDogListings.length === 0 ? (

@@ -57,7 +57,8 @@ const Header = ({ isLoggedIn, onLogin, onLogout, isBusinessAccount , handleLogou
         <div className="gradient-background"></div>
         <div className="nav-links">
         <Link to="/explore" className="nav-item login-link">Explore dogs</Link>
-          <div className="nav-item">Match me with a dog</div>
+        <Link to="/match-with-a-dog" className="nav-item login-link">Match me with a dog</Link>
+          
           
 
           {isLoggedIn ? (
@@ -82,7 +83,6 @@ const Header = ({ isLoggedIn, onLogin, onLogout, isBusinessAccount , handleLogou
                   {/* Items for customer account */}
                   <div className="dropdown-item" onClick={() => handleNavClick('/my-account')}>My Account</div>
                   <div className="dropdown-item" onClick={() => handleNavClick('/inbox')}>  Inbox{unreadCount > 0 && <span className="unread-count-dropdown">({unreadCount})</span>}</div>
-                  <div className="dropdown-item">Settings</div>
                   <div className="dropdown-item" onClick={handleLogout}>Log out</div>
                 </>
               )}

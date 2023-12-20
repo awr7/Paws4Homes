@@ -29,18 +29,26 @@ def login_user(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             auth_login(request, user) 
-            user_profile = UserProfile.objects.get(user=user)
-            is_business_account = user_profile.is_business_account if user_profile else False
-            print(user.id)
-            return JsonResponse({
-                'success': True, 
-                'isBusiness': is_business_account,
-                'userId': user.id  # Include the user's ID in the response
-            }, status=200)
+            # Check if the user is authenticated
+            if request.user.is_authenticated:
+                user_profile = UserProfile.objects.get(user=user)
+                is_business_account = user_profile.is_business_account if user_profile else False
+                print(f"User ID: {user.id} is authenticated.")
+                return JsonResponse({
+                    'success': True, 
+                    'isBusiness': is_business_account,
+                    'userId': user.id  # Include the user's ID in the response
+                }, status=200)
+            else:
+                print(f"User ID: {user.id} authentication failed after login.")
+                return JsonResponse({'error': 'Authentication failed after login'}, status=401)
         else:
+            print("Authentication failed with given credentials.")
             return JsonResponse({'error': 'Invalid credentials'}, status=401)
 
+    print("Invalid request method.")
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
 
 
 @csrf_exempt

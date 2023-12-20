@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
@@ -65,31 +66,34 @@ const App = () => {
   };
 
   return (
-    <Router>
-       <Header 
-        isLoggedIn={isLoggedIn} 
-        handleLogout={handleLogout} 
-        isBusinessAccount={isBusinessAccount} 
-      />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login handleLogin={handleLogin} />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signup/customer" element={<CustomerSignup />} />
-        <Route path="/signup/shelter-breeder" element={<ShelterBreederSignup />} />
-        <Route path="/my-account" element={<MyAccount />} />
-        <Route path="/inbox" element={<Inbox />} />
-        <Route path="/manage-listings" element={<ManageListings />} />
-        <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/manage-listings/post" element={<PostDogPage />} />
-        <Route path="/dog/:id" element={<DogInfo />} />
-        <Route path="/adopt/:id" element={<AdoptionApplication />} />
-        <Route path="/messages/:receiverID" element={<Messages />} />
-        <Route path="/applications/:id" element={<ApplicationDetails />} />
-        <Route path="/match-with-a-dog" element={<MatchPage />} />
-        <Route path="/matched" element={<Matched />} />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Header 
+          isLoggedIn={isLoggedIn} 
+          handleLogout={handleLogout} 
+          isBusinessAccount={isBusinessAccount} 
+        />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup/customer" element={<CustomerSignup />} />
+          <Route path="/signup/shelter-breeder" element={<ShelterBreederSignup />} />
+          <Route path="/my-account" element={<MyAccount />} />
+          <Route path="/inbox" element={<Inbox />} />
+          <Route path="/manage-listings" element={<ManageListings />} />
+          <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/manage-listings/post" element={<PostDogPage />} />
+          <Route path="/dog/:id" element={<DogInfo />} />
+          <Route path="/adopt/:id" element={<AdoptionApplication />} />
+          <Route path="/messages/:receiverID" element={<Messages />} />
+          <Route path="/applications/:id" element={<ApplicationDetails />} />
+          <Route path="/match-with-a-dog" element={<MatchPage />} />
+          <Route path="/matched" element={<Matched />} />
+        </Routes>
+      </Router>
+      <Analytics />
+    </>
   );
 };
 

@@ -55,7 +55,7 @@ SECRET_KEY = get_env_variable('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['paws4home-2502a21fe873.herokuapp.com', 'localhost', '127.0.0.1', '[::1]']
 
@@ -63,6 +63,8 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
+SESSION_COOKIE_AGE = 1209600
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 

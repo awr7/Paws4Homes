@@ -59,9 +59,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['paws4home.herokuapp.com', 'localhost', '127.0.0.1', '[::1]']
 
-if os.getcwd() == '/app':
-    import django_heroku
-    django_heroku.settings(locals())
 
 # Application definition
 
@@ -79,6 +76,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -173,3 +171,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+if os.getcwd() == '/app':
+    import django_heroku
+    django_heroku.settings(locals())

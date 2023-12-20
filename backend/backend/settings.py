@@ -62,6 +62,8 @@ ALLOWED_HOSTS = ['paws4home-2502a21fe873.herokuapp.com', 'localhost', '127.0.0.1
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_TRUSTED_ORIGINS = [

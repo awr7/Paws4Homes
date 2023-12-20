@@ -59,6 +59,17 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['paws4home-2502a21fe873.herokuapp.com', 'localhost', '127.0.0.1', '[::1]']
 
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000/',
+    'https://paws4homes.vercel.app/',
+]
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'None'
 
 # Application definition
 

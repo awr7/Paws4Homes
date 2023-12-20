@@ -1,1 +1,1 @@
-web: gunicorn paws4home --log-file -
+web: gunicorn backend.wsgi --log-file -

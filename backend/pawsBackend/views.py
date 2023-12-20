@@ -473,8 +473,15 @@ def mark_messages_as_read(request, receiver_id):
 
 @login_required
 def get_unread_message_count(request):
-    unread_count = Message.objects.filter(receiver=request.user, is_read=False).count()
-    return JsonResponse({'unread_count': unread_count})
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        logger.info(f"User {request.user.username} is authenticated.")
+        unread_count = Message.objects.filter(receiver=request.user, is_read=False).count()
+        return JsonResponse({'unread_count': unread_count})
+    else:
+        # This means the user is not authenticated
+        logger.warning("User is not authenticated.")
+        return JsonResponse({'error': 'User is not authenticated'}, status=401)
 
 @csrf_exempt
 @login_required

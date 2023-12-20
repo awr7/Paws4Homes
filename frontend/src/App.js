@@ -49,7 +49,7 @@ const App = () => {
   const handleLogout = async () => {
     try {
       // Call the backend logout endpoint
-      await fetch('http://localhost:8000/logout/', {
+      await fetch('https://paws4home-2502a21fe873.herokuapp.com/logout/', {
         method: 'POST',
         credentials: 'include', 
       });

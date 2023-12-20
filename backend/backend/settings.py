@@ -62,18 +62,20 @@ ALLOWED_HOSTS = ['paws4home-2502a21fe873.herokuapp.com', 'localhost', '127.0.0.1
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-SESSION_ENGINE = "django.contrib.sessions.backends.db"
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
-SESSION_COOKIE_AGE = 1209600
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.environ.get("REDIS_URL"),          "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000/',
-    'https://paws4homes.vercel.app/',
-]
-CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SAMESITE = 'None'
+# Set the session serializer
+SESSION_SERIALIZER = "django.contrib.sessions.serializers.JSONSerializer"
 
 # Application definition
 

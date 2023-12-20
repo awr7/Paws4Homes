@@ -108,43 +108,64 @@ def register(request):
 
 @csrf_exempt
 def submit_dog_listing(request):
+    print(f"Request method: {request.method}")
+    print(f"Is user authenticated? {request.user.is_authenticated}")
+    print(f"User: {request.user}")
+
     if request.method == 'POST':
-        print("Request = post")
-        print(request.user)
         data = json.loads(request.body)
+
+        # Log the data received in the request body
+        print(f"Request data: {data}")
 
         # Perform checks for all required fields including the new ones
         required_fields = ['name', 'breed', 'age', 'ageUnit', 'color', 'size', 'bio', 'gender', 'images']
         for field in required_fields:
             if not data.get(field):
-                return JsonResponse({'error': f'{field} is required'}, status=400)
+                error_message = f"{field} is required"
+                print(f"Error: {error_message}")
+                return JsonResponse({'error': error_message}, status=400)
         
         # Check if at least one image is uploaded
         images = data.get('images')
         if not images or not any(images):
-            return JsonResponse({'error': 'At least one image is required'}, status=400)
+            error_message = 'At least one image is required'
+            print(f"Error: {error_message}")
+            return JsonResponse({'error': error_message}, status=400)
 
         user = request.user  # Get the logged-in user
+        print(f"User ID: {getattr(user, 'id', 'No user id')}")  # This will print user id or 'No user id' if it's not available
         
-        # Create a new DogListing instance and save the data
-        dog_listing = DogListing(
-            user=user,
-            name=data.get('name'),
-            breed=data.get('breed'),
-            age=data.get('age'),
-            age_unit=data.get('ageUnit'),
-            color=data.get('color'),
-            size=data.get('size'),
-            bio=data.get('bio'),
-            gender=data.get('gender'),
-            images=data.get('images')
-        )
-        print(data)
-        dog_listing.save()
+        # Check if the user is authenticated
+        if not user.is_authenticated:
+            print("Error: The user is not authenticated.")
+            return JsonResponse({'error': 'You must be logged in to submit a listing.'}, status=401)
 
-        return JsonResponse({'success': 'Dog listing created successfully'}, status=201)
+        try:
+            # Create a new DogListing instance and save the data
+            dog_listing = DogListing(
+                user=user,
+                name=data.get('name'),
+                breed=data.get('breed'),
+                age=data.get('age'),
+                age_unit=data.get('ageUnit'),
+                color=data.get('color'),
+                size=data.get('size'),
+                bio=data.get('bio'),
+                gender=data.get('gender'),
+                images=data.get('images')
+            )
+            dog_listing.save()
+            print("Dog listing created successfully.")
+            return JsonResponse({'success': 'Dog listing created successfully'}, status=201)
+        except Exception as e:
+            # Catch any exceptions and print them out
+            print(f"An error occurred: {e}")
+            return JsonResponse({'error': str(e)}, status=500)
     else:
+        print("Error: Invalid request method.")
         return JsonResponse({'error': 'Invalid request'}, status=400)
+
     
 def get_dog_listings(request):
     if request.method == 'GET':

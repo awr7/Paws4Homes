@@ -62,6 +62,11 @@ ALLOWED_HOSTS = ['paws4home-2502a21fe873.herokuapp.com', 'localhost', '127.0.0.1
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",

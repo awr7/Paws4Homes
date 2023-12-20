@@ -474,6 +474,7 @@ def mark_messages_as_read(request, receiver_id):
 @login_required
 def get_unread_message_count(request):
     # Check if the user is authenticated
+    print(request.session.session_key)
     if request.user.is_authenticated:
         logger.info(f"User {request.user.username} is authenticated.")
         unread_count = Message.objects.filter(receiver=request.user, is_read=False).count()

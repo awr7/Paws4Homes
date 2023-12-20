@@ -32,14 +32,25 @@ const Header = ({ isLoggedIn, onLogin, onLogout, isBusinessAccount , handleLogou
     const fetchUnreadCount = async () => {
       if (isLoggedIn) {
         try {
+          // Log the credentials being sent
+          console.log("Sending credentials: 'include'");
+  
           const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/get_unread_message_count/', {
             method: 'GET',
             credentials: 'include',
           });
+  
+          // Log the response object
+          console.log("Response from get_unread_message_count:", response);
+  
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
+  
           const data = await response.json();
+          // Log the data received
+          console.log("Data received:", data); // This will show the unread count and any other data received
+  
           setUnreadCount(data.unread_count);
         } catch (error) {
           console.error('Error fetching unread message count:', error);
@@ -48,7 +59,9 @@ const Header = ({ isLoggedIn, onLogin, onLogout, isBusinessAccount , handleLogou
     };
   
     fetchUnreadCount();
-  }, [isLoggedIn, location]);
+  }, [isLoggedIn]);
+  
+  
   
 
   return (

@@ -24,7 +24,7 @@ const ManageListingsPage = () => {
   const handleDelete = async (listingId) => {
     if (window.confirm('Are you sure you want to delete this listing?')) {
         try {
-            const response = await fetch(`http://localhost:8000/delete-dog-listing/${listingId}/`, {
+            const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/delete-dog-listing/${listingId}/`, {
                 method: 'DELETE',
                 credentials: 'include',
             });
@@ -42,7 +42,7 @@ const ManageListingsPage = () => {
   useEffect(() => {
     const fetchUserDogListings = async () => {
       try {
-        const response = await fetch('http://localhost:8000/get-user-dog-listings/', {
+        const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/get-user-dog-listings/', {
         method: 'GET',
        credentials: 'include' 
     });
@@ -69,7 +69,7 @@ useEffect(() => {
   const fetchUserProfile = async () => {
     try {
       console.log('Fetching user profile...');
-      const response = await fetch(`http://localhost:8000/user_profile/${loggedInUserId}/`, {
+      const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/user_profile/${loggedInUserId}/`, {
         method: 'GET',
         credentials: 'include',
       });

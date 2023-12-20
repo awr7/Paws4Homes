@@ -64,7 +64,7 @@ const MAX_CHAR_LIMIT = 150;
         if (!receiverID) return;
     
         try {
-          const response = await fetch(`http://localhost:8000/get_messages/${receiverID}/`, {
+          const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/get_messages/${receiverID}/`, {
             method: 'GET',
             credentials: 'include',
           });
@@ -84,7 +84,7 @@ const MAX_CHAR_LIMIT = 150;
         console.log('Sending payload:', payload);  // This should now include both receiver and content
       
         try {
-          const response = await fetch('http://localhost:8000/send_message/', {
+          const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/send_message/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ const MAX_CHAR_LIMIT = 150;
         const fetchUserProfile = async () => {
           try {
             console.log('Fetching user profile...');
-            const response = await fetch(`http://localhost:8000/user_profile/${loggedInUserId}/`, {
+            const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/user_profile/${loggedInUserId}/`, {
               method: 'GET',
               credentials: 'include',
             });
@@ -138,7 +138,7 @@ const MAX_CHAR_LIMIT = 150;
       useEffect(() => {
         const markMessagesAsRead = async () => {
             // Send request to mark messages as read
-            await fetch(`http://localhost:8000/mark_messages_as_read/${receiverID}/`, {
+            await fetch(`https://paws4home-2502a21fe873.herokuapp.com/mark_messages_as_read/${receiverID}/`, {
                 method: 'POST',
                 credentials: 'include',
             });

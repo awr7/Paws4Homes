@@ -92,8 +92,8 @@ const PostDog = () => {
         };
     
         const url = listingToEdit
-        ? `http://localhost:8000/update-dog-listing/${listingToEdit.id}/`
-        : 'http://localhost:8000/submit-dog-listing/';
+        ? `https://paws4home-2502a21fe873.herokuapp.com/update-dog-listing/${listingToEdit.id}/`
+        : 'https://paws4home-2502a21fe873.herokuapp.com/submit-dog-listing/';
         const method = listingToEdit ? 'PUT' : 'POST';
 
         try {

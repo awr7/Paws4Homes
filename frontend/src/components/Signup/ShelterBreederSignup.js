@@ -19,7 +19,7 @@ const ShelterBreederSignup = () => {
         }
     
         try {
-            const response = await fetch('http://localhost:8000/register/', {
+            const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

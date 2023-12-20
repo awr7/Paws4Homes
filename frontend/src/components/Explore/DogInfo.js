@@ -22,7 +22,7 @@ const DogInfo = () => {
   useEffect(() => {
     const fetchDogDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/get-dog-listing/${id}`); 
+        const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/get-dog-listing/${id}`); 
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

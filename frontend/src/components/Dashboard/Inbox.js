@@ -15,7 +15,7 @@ const InboxPage = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-          const response = await fetch('http://localhost:8000/get_messages/', {
+          const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/get_messages/', {
               method: 'GET',
               headers: {
                   'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const InboxPage = () => {
     const fetchUserProfile = async () => {
       try {
         console.log('Fetching user profile...');
-        const response = await fetch(`http://localhost:8000/user_profile/${loggedInUserId}/`, {
+        const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/user_profile/${loggedInUserId}/`, {
           method: 'GET',
           credentials: 'include',
         });

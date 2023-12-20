@@ -37,7 +37,7 @@ const ApplicationDetails = () => {
 
   const sendMessage = async (receiverId, content) => {
     try {
-      const response = await fetch('http://localhost:8000/send_message/', {
+      const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/send_message/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const ApplicationDetails = () => {
   useEffect(() => {
     const fetchApplication = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/applications/${id}`, {
+        const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/applications/${id}`, {
           method: 'GET',
           credentials: 'include', 
         });

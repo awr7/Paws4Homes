@@ -17,7 +17,7 @@ const Login = ({handleLogin} ) => {
       const payload = Object.fromEntries(formData);
   
       try {
-          const response = await fetch('http://localhost:8000/login/', {
+          const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/login/', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -33,8 +33,8 @@ const Login = ({handleLogin} ) => {
           const data = await response.json();
           
           if (response.ok) {
-            handleLogin(data.userId, data.isBusiness); 
-            console.log('userID in Login.js: ', data.userId) // Call the handleLogin passed from App.js
+            handleLogin(data.userId-1, data.isBusiness); 
+            console.log('userID in Login.js: ', data.userId-1) // Call the handleLogin passed from App.js
             navigate('/');  // Redirect to homepage
 
           } else {

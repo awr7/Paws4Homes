@@ -32,7 +32,7 @@ const Header = ({ isLoggedIn, onLogin, onLogout, isBusinessAccount , handleLogou
     const fetchUnreadCount = async () => {
       if (isLoggedIn) {
         try {
-          const response = await fetch('http://localhost:8000/get_unread_message_count/', {
+          const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/get_unread_message_count/', {
             method: 'GET',
             credentials: 'include',
           });

@@ -23,7 +23,7 @@ const AdoptionApplication = () => {
   const [additionalNote, setAdditionalNote] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8000/get-user-details/', {
+    fetch('https://paws4home-2502a21fe873.herokuapp.com/get-user-details/', {
         method: 'GET',
         credentials: 'include',  
         headers: {
@@ -67,7 +67,7 @@ const handleSubmit = async (event) => {
   console.log(formData)
 
   try {
-      const response = await fetch('http://localhost:8000/create-adoption-application/', {
+      const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/create-adoption-application/', {
           method: 'POST',
           credentials: 'include',
           headers: {

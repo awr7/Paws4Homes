@@ -1,14 +1,15 @@
 // Header.js
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation  } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import logo from '../../assets/img/pawIcon.png';
 
-const Header = ({ isLoggedIn, onLogin, onLogout, isBusinessAccount , handleLogout  }) => {
+const Header = ({ isLoggedIn, isBusinessAccount , handleLogout  }) => {
 
   const navigate = useNavigate();
-  
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const handleMouseEnter = () => {
     console.log("Mouse entered 'My Account'");
@@ -16,7 +17,6 @@ const Header = ({ isLoggedIn, onLogin, onLogout, isBusinessAccount , handleLogou
   };
 
   const handleMouseLeave = () => {
-    console.log("Mouse left 'My Account'");
     setShowDropdown(false);
   };
 
@@ -24,9 +24,9 @@ const Header = ({ isLoggedIn, onLogin, onLogout, isBusinessAccount , handleLogou
     navigate(path);
   };
 
-  const [unreadCount, setUnreadCount] = useState(0);
-
-  const location = useLocation();
+  const toggleHamburgerMenu = (e) => {
+    setIsHamburgerOpen(e.target.checked);
+  };  
 
   useEffect(() => {
     const fetchUnreadCount = async () => {
@@ -68,7 +68,32 @@ const Header = ({ isLoggedIn, onLogin, onLogout, isBusinessAccount , handleLogou
     <header>
       <div className="header-container">
         <div className="gradient-background"></div>
-        <div className="nav-links">
+        <nav role="navigation">
+          <div id="menuToggle">
+            <input type="checkbox" checked={isHamburgerOpen} onChange={toggleHamburgerMenu} />
+            <span></span>
+            <span></span>
+            <span></span>
+            <ul id="menu">
+              <Link to="/explore" style={{ textDecoration: 'none'}}><li>Explore Dogs</li></Link>
+              <Link to="/match-with-a-dog" style={{ textDecoration: 'none'}}><li>Match me with a dog</li></Link>
+              {isLoggedIn && (
+                <>
+                  <Link to="/my-account" style={{ textDecoration: 'none'}}><li>My Account </li></Link>
+                  {isBusinessAccount ? (
+                    <>
+                      <Link to="/manage-listings" style={{ textDecoration: 'none'}}><li>Manage Listings</li></Link>
+                    </>
+                  ) : null}
+                  <Link to="/inbox" style={{ textDecoration: 'none'}}><li>Inbox {unreadCount > 0 && `(${unreadCount})`}</li></Link>
+                  <li onClick={handleLogout}>Log out</li>
+                </>
+              )}
+              {!isLoggedIn && <Link to="/login"><li>Login</li></Link>}
+            </ul>
+          </div>
+        </nav>
+        <div className="nav-links" style={{ display: isHamburgerOpen ? 'none' : 'flex' }}>
         <Link to="/explore" className="nav-item login-link">Explore dogs</Link>
         <Link to="/match-with-a-dog" className="nav-item login-link">Match me with a dog</Link>
           

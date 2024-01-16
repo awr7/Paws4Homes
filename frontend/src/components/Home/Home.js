@@ -75,11 +75,8 @@ const Home = () => {
             </animated.div>
           );
         })}
-
-       
-
-        <div className="buttons">
-        <button className="btn explore" onClick={handleExploreClick}>Explore dogs</button>
+        <div className="buttons-container">
+          <button className="btn explore" onClick={handleExploreClick}>Explore dogs</button>
           <button className="btn match" onClick={handleMatchClick}>Match with a dog</button>
         </div>
       </div>
@@ -106,7 +103,7 @@ const Home = () => {
       <div className="section section-two">
         {/* Content for the second section */}
         
-        <div>Your content for the second section goes here.</div>
+        <div>Coming soon...</div>
       </div>
     </main>
   );

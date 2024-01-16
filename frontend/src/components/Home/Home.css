@@ -1,5 +1,6 @@
 html {
   font-size: 62.5%;
+  overflow-x: hidden;
 }
 
 .section {
@@ -10,18 +11,17 @@ html {
 }
 
 .section-one {
-  width: 100%;
+  width: 100vw;
   z-index: 2; 
   position: relative;
+  overflow-x: hidden;
 }
 
 .svg-container {
   position: absolute;
   top: calc(100vh - 150px); 
   left: 0;
-  width: 100%;
-  z-index: 1; 
-  z-index: 2;
+  width: 100vw;
 }
 
 .svg-shape {
@@ -43,6 +43,7 @@ html {
 }
 
 .section-two {
+  height: auto;
   position: relative;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -52,39 +53,38 @@ html {
 
 
 .hero {
-  position: absolute;
-  width: 100%;
-  height: 100%;
   background-size: cover;
-  background-position: center;
+  background-position: 70% center;
   z-index: 3;
 }
 
-.btn {
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6rem;
   position: absolute;
+  top: 73.5vh;
+  left: 9.2%;
+  z-index: 4;
+}
+
+.btn {
   width: 23.6rem;
   height: 8rem;
   border-radius: 3.2rem;
   font-family: 'Acme', sans-serif;
   font-size: 2.4rem;
   text-align: center;
-  line-height: 8rem;
   color: white;
   border: none;
   cursor: pointer;
-  padding: 0 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   transition: background-color 0.3s, box-shadow 0.3s;
-  z-index: 4;
 
   box-shadow: inset 0 0 0 2px black, 0px 0.4rem 0.8rem rgba(0, 0, 0, 0.2);
 }
 
 .btn.explore {
-  left: 17.4rem;
-  top: 70.5rem;
   background-color: #008080; 
   
   &:hover {
@@ -94,8 +94,6 @@ html {
 }
 
 .btn.match {
-  left: 46.9rem;
-  top: 70.5rem;
   background-color: #FF7F50; 
   
   &:hover {
@@ -107,17 +105,15 @@ html {
 
 .dose-text {
     position: absolute;
-    left: 18rem;
-    top: 46.9rem;
+    left: 9%;
+    top: 44.9rem;
     width: 54.6rem;
     height: 26.7rem;
-  
     color: rgba(255, 255, 255, 0.79);
     text-align: center;
     text-shadow: 0rem 0.4rem 0.4rem rgba(0, 0, 0, 0.25);
     font-family: 'Acme', sans-serif;
-    font-size: 9.6rem; /* 96px / 10 */
-    line-height: 9.6rem; 
+    font-size: 9.6rem; 
   }
 
   .of-text {
@@ -129,9 +125,66 @@ html {
     line-height: 9.6rem;
     position: absolute;
     top: 56.5rem;
-    left: 14.6rem;
+    left: 8%;
     width: 59.9rem;
     height: 9.6rem;
   }
 
-  
+  @media(max-height:845px) {
+    .buttons-container {
+      top: 70% !important;
+    }
+
+    .of-text {
+      top:55% !important;
+    }
+
+    .dose-text {
+      top: 45% !important;
+    }
+  }
+
+  @media(max-width: 700px) {
+
+    .dose-text {
+      left: -9%;
+      font-size: 6.6rem;
+      top: 45.9rem;
+    }
+    .of-text{
+      left: -13%;
+      top: 54.5rem;
+      font-size: 6.6rem;
+    }
+    .buttons-container{
+      top: 65.5rem;
+      left: 5%;
+      gap: 2rem;
+    }
+    .btn {
+      width: 18rem;
+      font-size: 2rem;
+      height: 6rem;
+    }
+  }
+
+  @media(max-width: 500px) {
+
+    .dose-text {
+      left: -20%;
+      top: 47.9rem;
+      font-size: 5.6rem;
+    }
+    .of-text{
+      left: -25%;
+      font-size: 5.6rem;
+    }
+    .buttons-container{
+      left: 7%;
+    }
+    .btn {
+      width: 16rem;
+      font-size: 2rem;
+      height: 6rem;
+    }
+  }

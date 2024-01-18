@@ -10,16 +10,6 @@ html, body {
     align-items: center;
     justify-content: center;
   }
-  
-  .white-rectangle {
-    background-color: white;
-    width: 1680.002px;
-    height: 936.924px;
-    display: flex;
-    align-items: center; 
-    justify-content: center; 
-    
-  }
 
   .colored-rectangle {
     width: 690px;

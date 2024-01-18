@@ -89,7 +89,7 @@ const Header = ({ isLoggedIn, isBusinessAccount , handleLogout  }) => {
                   <li onClick={handleLogout}>Log out</li>
                 </>
               )}
-              {!isLoggedIn && <Link to="/login"><li>Login</li></Link>}
+              {!isLoggedIn && <Link to="/login" style={{ textDecoration: 'none'}} ><li>Login</li></Link>}
             </ul>
           </div>
         </nav>

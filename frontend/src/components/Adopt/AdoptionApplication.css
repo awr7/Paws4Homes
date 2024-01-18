@@ -11,16 +11,6 @@ html, body {
     justify-content: center;
     overflow: hidden;
   }
-  
-  .white-rectangle {
-    background-color: white;
-    width: 1680.002px;
-    height: 936.924px;
-    display: flex;
-    align-items: center; 
-    justify-content: center; 
-    
-  }
 
   .application-rectangle {
     width: 690px;

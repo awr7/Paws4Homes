@@ -1,7 +1,6 @@
-/* Login.css */
 html, body {
-    height: 100%; /* Ensure full height */
-    margin: 0; /* Reset default margin */
+    height: 100%;
+    margin: 0;
   }
   
   .login-container {
@@ -11,13 +10,13 @@ html, body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
   
   .white-rectangle {
     background-color: white;
-    width: 1680.002px;
-    height: 936.924px;
-    flex-shrink: 0;
+    width: 87.9%;
+    height: 97.8vh;
     display: flex;
     justify-content: flex-end; 
     position: relative; 
@@ -27,13 +26,12 @@ html, body {
     background-color: #D5EAEA;
     width: 690px;
     height: 732px;
-    flex-shrink: 0;
     position: absolute;
-    top: 137px;
-    right: 196px;
+    top: 14.7%;
+    right: 11.7%;
     display: flex; 
     flex-direction: column; 
-    align-items: flex-end; 
+    align-items: center; 
     overflow: hidden;
   }
 
@@ -41,15 +39,14 @@ html, body {
     color: black;
     font-size: 40px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
     word-wrap: break-word;
-    margin-right: 301px; 
     margin-top: 31px;
   }
 
   .email-form {
     margin-top: 18px; 
-    width: calc(100% - 150px); 
+    width: 57%;
+    align-items: flex-start;
   }
 
   .form-label {
@@ -58,24 +55,20 @@ html, body {
     font-family: 'Acme', sans-serif;
     font-weight: 400;
     line-height: 28.09px;
-    word-wrap: break-word;
     display: block; 
-    margin-bottom: 5px; 
   }
   
   .email-input, .password-input {
     color: #8D8D8D;
     font-size: 19.67px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
     line-height: 28.09px;
-    word-wrap: break-word;
     border: none;
     border-bottom: 1px solid #000; 
     background-color: transparent;
-    width: 390px; 
+    width: 100%; 
     padding: 8px 0; 
-    margin-bottom: 20px; /* Space below the input */
+    margin-bottom: 20px;
   }
   
   .password-input:focus {
@@ -101,22 +94,18 @@ html, body {
     background-color: #FD7401;
     box-shadow: 0px 0px 19.665578842163086px rgba(0, 0, 0, 0.12);
     border-radius: 7.02px;
-    justify-content: center;
-    align-items: center;
-    display: inline-flex;
+    position: relative;
     cursor: pointer; 
     border: none; 
-    margin-left: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
    }
   
   .login-button-text {
-    text-align: center;
     color: white;
     font-size: 24px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
-    word-wrap: break-word;
-    margin: auto;
   }
 
   .or-divider {
@@ -125,7 +114,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px 0; /* Adjust the vertical spacing around the divider*/
+    margin: 20px 0;
   }
   
   .or-divider:before,
@@ -135,15 +124,16 @@ html, body {
     height: 1px;
     background: #C2C2C2;
     border-top: 1px solid #C2C2C2;
+    z-index: 2;
   }
   
   .or-text {
     color: #C2C2C2;
     font-size: 14px;
     font-family: 'Poppins', sans-serif; 
-    font-weight: 400;
     word-wrap: break-word;
     padding: 0 10px; 
+    z-index: 2;
   }
 
   .signup-button {
@@ -158,7 +148,6 @@ html, body {
     align-items: center; 
     cursor: pointer; 
     background-color: #ffffff00; 
-    margin-right: 193px;
     z-index: 2;
   }
   
@@ -174,7 +163,7 @@ html, body {
     width: auto; 
     height: auto; 
     position: absolute;
-    left: 390px; 
+    right:-27%; 
     top: 400px; 
   }
 
@@ -184,7 +173,45 @@ html, body {
     bottom: 0; 
   }
 
-
-
-
+  @media (max-width: 1143px) {
+    .login-rectangle {
+      left: 50%;
+      transform: translateX(-50%);
+      
+    }
   
+    .cloud-icon {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 1010px) {
+    .login-rectangle {
+      width: 89%;
+      height: 80%;
+    }
+    .paw-icon {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 663px) {
+    .login-button{
+      width: 100%;
+    }
+    .signup-button{
+      width: 57%;
+    }
+  }
+
+  @media(max-height: 740px) {
+    .email-input, .password-input {
+      margin-bottom: 15px;
+    }
+    .login-button {
+      padding-top: 9.63px;
+      padding-bottom: 9.63px;
+    }
+  }

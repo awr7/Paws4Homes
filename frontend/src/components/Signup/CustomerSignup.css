@@ -286,13 +286,13 @@ html, body {
     transform: translateX(-50%);
     z-index: 1000;
     background: #fff;
-    padding: 40px; /* Increased padding */
+    padding: 40px;
     border: 1px solid #ccc;
-    border-radius: 10px; /* Slightly larger border radius */
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    width: 50%; /* Larger width */
-    max-width: 600px; /* Maximum width */
-    text-align: center; /* Center text */
+    width: 50%;
+    max-width: 600px;
+    text-align: center; 
 }
 
 .popup-message {

@@ -8,16 +8,6 @@
     align-items: center;
     justify-content: center;
   }
-  
-  .white1-rectangle {
-    background-color: white;
-    width: 1680.002px;
-    height: 100vw;
-    flex-shrink: 0;
-    display: flex;
-
-    position: relative; 
-  }
 
   .gradient-rectangle {
     width: 100%;

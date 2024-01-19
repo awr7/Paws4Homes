@@ -16,12 +16,12 @@ const Signup = () => {
   };
     return (
         <div className="signup-container">
-            <div className="white-rectangle">
-            <img src={peekingDog} alt="Peeking Dog" className="peeking-dog" />
+            <div className="white1-rectangle">
                 <div className="signup-rectangle">
+                    <img src={peekingDog} alt="Peeking Dog" className="peeking-dog" />
                     <div className="account-type-text">Do you want to make a?</div>
                     <div className="vertical-line"></div>
-                    <div className="horizontal-line"></div>
+                    <div className="horizontally-line"></div>
                     <div className="shelter-breeder-button" onClick={handleShelterBreederAccountClick}>
                     <div className="button-text">Shelter/Breeder Account</div>
                 </div>

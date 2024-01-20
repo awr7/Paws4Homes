@@ -70,7 +70,7 @@ const ShelterBreederSignup = () => {
                 <div className="colored-rectangle">
                     <div className="signup-heading-text">Signup</div>
                     <div className="description-text">
-                        Create an account to be one step closer <br/>to share your dogs to the world!
+                        Create an account to be one step closer to share your dogs to the world!
                     </div>
                     <div className="additional-rectangle">
                         <div className="quote-text">
@@ -82,27 +82,28 @@ const ShelterBreederSignup = () => {
                 <div className="form-container">
                     <form onSubmit={handleSubmit} className="signup-form">
                         <div className="form-field">
-                            <label htmlFor="companyNameOrFullName" className="name-label">Company Name or Your Full Name</label>
-                            <input type="text" id="companyNameOrFullName" name="companyNameOrFullName" className="form-input" placeholder="Humane Animal Shelter Inc." />
+                            <label htmlFor="companyNameOrFullName" className="label">Company Name or Your Full Name</label>
+                            <input type="text" id="companyNameOrFullName" name="companyNameOrFullName" className="input-field company-name-input" placeholder="Humane Animal Shelter Inc." />
                         </div>
+
                         <div className="form-field-group">
                             <div className="form-field email-field">
-                                <label htmlFor="email" className="email-label">Email</label>
-                                 <input type="email" id="email" name="email" className="email" placeholder="john@gmail.com" />
+                                <label htmlFor="email" className="label">Email</label>
+                                <input type="email" id="email" name="email" className="input-field" placeholder="john@gmail.com" />
                             </div>
                             <div className="form-field phone-field">
-                                <label htmlFor="phone" className="phone-label">Phone Number</label>
-                                <input type="tel" id="phone" name="phone" className="phone" placeholder="+84 988 888 888" />
+                                <label htmlFor="phone" className="label">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" className="input-field" placeholder="+84 988 888 888" />
                             </div>
                         </div>
                         <div className="form-field-group">
                             <div className="form-field password-field">
-                                <label htmlFor="password" className="password-label">Password</label>
-                                <input type="password" id="password" name="password" className="password" placeholder="Enter your password" />
+                                <label htmlFor="password" className="label">Password</label>
+                                <input type="password" id="password" name="password" className="input-field" placeholder="Enter your password" />
                             </div>
                             <div className="form-field password-field">
-                                <label htmlFor="rePassword" className="repassword-label">Re-enter Password</label>
-                                <input type="password" id="rePassword" name="rePassword" className="repassword" placeholder="Re-enter your password" />
+                                <label htmlFor="rePassword" className="label">Re-enter Password</label>
+                                <input type="password" id="rePassword" name="rePassword" className="input-field" placeholder="Re-enter your password" />
                             </div>
                         </div>
                         <button type="submit" className="create-account-button">

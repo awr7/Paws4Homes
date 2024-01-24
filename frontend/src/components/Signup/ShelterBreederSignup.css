@@ -1,9 +1,4 @@
-html, body {
-    height: 100%; 
-    margin: 0; 
-  }
-
-  .colored-rectangle {
+ .colored-rectangle {
     width: 72%;
     height: 97%;
     background: #D5EAEA;
@@ -108,7 +103,7 @@ html, body {
 
 .form-field-group {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 20px;
   margin-bottom: 20px;
   position: relative;

@@ -1,23 +1,8 @@
-html, body {
-    height: 100%; 
-    margin: 0; 
-  }
-
-  .dog-info-container {
-    background-color: #f1f1f1;
-    min-height: 100vh; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  
-  .beige-rectangle {
+.beige-rectangle {
     background-color: #EDEAE0;
     width: 1680.002px;
     height: 936.924px;
     display: flex;
-    
   }
 
   .fetched-dog-name {

@@ -9,8 +9,10 @@ const DogCard = ({ image, name, age, breed, onImageClick, dimImage, tooltipText 
         {dimImage && <div className="tooltip">{tooltipText}</div>} 
         <div className="info-rectangle">
           <div className="dog-name">{name}</div>
+          <div className="dog-info-container">
           <div className="dog-age">Age: {age}</div>
           <div className="dog-breed">Breed: {breed}</div>
+          </div>
         </div>
         <div className="logo-rectangle">
           <img src={logoPaw} alt="Logo Paw" className="logo-paw-image" />

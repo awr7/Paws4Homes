@@ -14,13 +14,18 @@ const ExplorePage = () => {
   const [size, setSize] = useState('Any'); 
   const [gender, setGender] = useState('Any'); 
   const [color, setColor] = useState('Any'); 
+  const [showFilters, setShowFilters] = useState(false);
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
 
   const [dogListings, setDogListings] = useState([]);
 
   useEffect(() => {
     const fetchDogListings = async () => {
       try {
-        const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/get-dog-listings/'); // Adjust URL as needed
+        const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/get-dog-listings/');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -36,12 +41,13 @@ const ExplorePage = () => {
 
   return (
     <div className="explore-container">
-      <div className="white1-rectangle">
+      <div className="white-rectangle">
         <div className="gradient-rectangle">
         <div className="gradient-text">
-            Discover Your Perfect Pup - <br />Explore Our Exclusive Dog Catalog!
+            Discover Your Perfect Pup - Explore Our Exclusive Dog Catalog!
           </div>
         </div>
+        <div className="search-sort-container">
         <div className="search-bar">
           <input type="text" placeholder="Search for anything" />
         </div>
@@ -59,6 +65,22 @@ const ExplorePage = () => {
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 16 10" fill="none">
               <path d="M14.3136 2L8.15679 8.1568L2 2" stroke="black" stroke-width="2.77056" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
+          </div>
+          <div className="filter-wrapper">
+          <button className="filter-button" onClick={toggleFilters}>
+            Filters
+          </button>
+          {showFilters && (
+          <div className="filter-menu">
+            <CustomDropdown label="Sort" options={['A - Z', 'Newest', 'Relevance', 'Breed']} onChange={(e) => setSortOption(e.target.value)} />
+            <CustomDropdown label="Breed" options={['Any', 'Husky', 'Golden Retriever']} onChange={(e) => setBreed(e.target.value)} />
+            <CustomDropdown label="Age" options={['Any', 'Puppy', 'Adult']} onChange={(e) => setAge(e.target.value)} />
+            <CustomDropdown label="Size" options={['Any', 'Small', 'Big']} onChange={(e) => setSize(e.target.value)} />
+            <CustomDropdown label="Gender" options={['Any', 'Male', 'Female']} onChange={(e) => setGender(e.target.value)} />
+            <CustomDropdown label="Color" options={['Any', 'Black', 'White']} onChange={(e) => setColor(e.target.value)} />
+          </div>
+        )}
+        </div>
           </div>
             <div className="filter-rectangle">
             <div><CustomDropdown label="Breed" options={['Any','Husky', 'Golden Retriever']} onChange={(e) => setBreed(e.target.value)} /></div>

@@ -1,5 +1,3 @@
-import paw from '../../assets/img/PawIconColor.png';
-import cloud from '../../assets/img/dogCloud.png';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import InputPair from '../Dashboard/InputPair';
@@ -41,7 +39,7 @@ const MatchPage = ({handleLogin} ) => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(formState),
-            credentials: 'include', // If you're using session-based authentication
+            credentials: 'include', 
           });
       
           if (!response.ok) {
@@ -51,13 +49,8 @@ const MatchPage = ({handleLogin} ) => {
           const data = await response.json();
           console.log('Matched Dog:', data.matchedDog);
       
-          // Handle the matched dog data here
-          // For example, you might want to redirect the user to a page with the dog's details
-          // or update the state to display the dog's information on the current page.
-      
         } catch (error) {
           console.error('Error submitting form:', error);
-          // Handle errors here, such as displaying an error message to the user
         }
       };
 
@@ -65,14 +58,14 @@ const MatchPage = ({handleLogin} ) => {
         event.preventDefault();
         console.log('Form submission:', formState);
         // Redirect to the matched page
-        navigate('/matched'); // Assuming you have 'navigate' from 'react-router-dom'
+        navigate('/matched');
     };
     
 
     return (
       <div className="login-container">
         <div className="white-rectangle">
-            
+            <div className='matching-contaiener'>
         <form onSubmit={handleSubmit}>
       <div className="input-group">
         <InputPair
@@ -221,11 +214,11 @@ const MatchPage = ({handleLogin} ) => {
         />
       </div>
 
-      {/* Add a submit button */}
       <button className="match-button" onClick={tempHandleSubmit}>
             Find My Match
             </button>
     </form>
+    </div>
         </div>
       </div>
     );

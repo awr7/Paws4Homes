@@ -199,6 +199,99 @@ const handleSave = async () => {
           <button className="change-pic-button" onClick={handleImageClick}>
             <span className="change-pic-text">Choose New Profile Picture</span>
           </button>
+          <div className='info-head'>Your email is the only thing that cannot be changed.</div>
+          <div className='button-container'>
+          <button className="edit-button1" onClick={toggleEditMode}>
+          {isEditMode ? "Undo" : "Edit"}
+        </button>
+
+        {isEditMode && (
+          <button className="save-button1" onClick={handleSave}>
+            Save
+          </button>
+        )}
+        </div>
+          <div className="my-info-style1">
+          <div className="input-group">
+            {isEditMode ? (
+              isBusinessAccount ? (
+                <InputPair
+                  label="Company Name"
+                  id="companyName"
+                  placeholder="Enter company name"
+                  value={companyName}
+                  onChange={e => setCompanyName(e.target.value)}
+                />
+              ) : (
+                <>
+                  <InputPair
+                    label="First Name"
+                    id="firstName"
+                    placeholder="Enter first name"
+                    value={firstName}
+                    onChange={e => setFirstName(e.target.value)}
+                  />
+                  <InputPair
+                    label="Last Name"
+                    id="lastName"
+                    placeholder="Enter last name"
+                    value={lastName}
+                    onChange={e => setLastName(e.target.value)}
+                  />
+                </>
+              )
+            ) : (
+              isBusinessAccount ? (
+                <DisplayPair label="Company Name" value={userData.company_name} customValueClass="my-info-display-value" />
+              ) : (
+                <>
+                  <DisplayPair label="First Name" value={userData.first_name} customValueClass="my-info-display-value" />
+                  <DisplayPair label="Last Name" value={userData.last_name} customValueClass="my-info-display-value" />
+                </>
+              )
+            )}
+          </div>
+
+          <div className="input-group">
+            <DisplayPair label="Email" value={userData.email} customValueClass="my-info-display-value" />
+
+            {!isEditMode && (
+              <DisplayPair label="Phone Number" value={userData.phone_number} customValueClass="my-info-display-value" />
+            )}
+
+            {isEditMode && (
+              <InputPair
+                label="Phone Number"
+                id="phoneNumber"
+                placeholder="Enter phone number"
+                value={phoneNumber}
+                onChange={e => setPhoneNumber(e.target.value)}
+              />
+            )}
+          </div>
+
+          <h3 className="change-password">Change your password</h3>
+          <div className="input-group">
+            <InputPair
+              label="Enter Password"
+              id="password"
+              placeholder="Enter your new password"
+              inputType="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <InputPair
+              label="Re-enter Password"
+              id="rePassword"
+              placeholder="Re-enter your new password"
+              inputType="password"
+              value={reNewPassword}
+              onChange={(e) => setReNewPassword(e.target.value)}
+            />
+          </div>
+
+          <button className="change-pass-button" onClick={handleChangePassword}>Change Password</button>
+        </div>
           <img src={paw} alt="Paw Icon" className="paw-icon" />
         </div>
         <h2 className="my-account-info">Change your information</h2>

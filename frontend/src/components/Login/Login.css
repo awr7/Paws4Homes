@@ -168,11 +168,16 @@
     bottom: 0; 
   }
 
-  @media (max-width: 1143px) {
+  @media (max-width: 1510px) {
     .login-rectangle {
       left: 50%;
       transform: translateX(-50%);
-      
+      width: 89%;
+      height: 80%;
+    }
+    .paw-icon {
+      left: 50%;
+      transform: translateX(-50%);
     }
   
     .cloud-icon {

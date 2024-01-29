@@ -37,7 +37,8 @@
     align-items: center; 
     cursor: pointer; 
     background-color: #ffffff00; 
-    left: 30%;
+    left: 50%;
+    transform: translateX(-50%);
     top: 50%;
     z-index: 2;
   }
@@ -46,7 +47,6 @@
     color: #008080;
     font-size: 16px;
     font-family: 'Poppins', sans-serif; 
-    font-weight: 600;
     word-wrap: break-word;
   }
 
@@ -62,7 +62,6 @@
     color: #8D8D8D;
     font-size: 19.67px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
     line-height: 28.09px;
     border-bottom: 1px solid #000;
     background-color: transparent;
@@ -75,7 +74,6 @@
     color: #8D8D8D;
     font-size: 19.67px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
     line-height: 28.09px;
     border-bottom: 1px solid #000;
     background-color: transparent;
@@ -88,7 +86,6 @@
     color: black;
     font-size: 40px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
     word-wrap: break-word;
     top: 161px;
     left: 50px;
@@ -165,7 +162,6 @@
     color: #8D8D8D;
     font-size: 19.67px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
     line-height: 28.09px;
     word-wrap: break-word;
     border: none;
@@ -202,6 +198,10 @@
     width: 300px;
   }
 
+  .my-info-style1, .info-head, .edit-button1{
+    display: none;
+  }
+
 
   @media (max-width: 1766px) {
     .input-pair input {
@@ -225,17 +225,116 @@
   }
 
     @media (max-width: 1510px) {
-      .my-account-info{
+      .my-account-info, .my-info-style, .edit-button, h4, .save-button{
         display: none;
       }
 
-      .my-account-white-circle{
-       
+      .info-head{
+        font-size: 1.6rem;
       }
+
+      .my-info-style1{
+        display: block;
+        top: 55%;
+        position: relative;
+        z-index: 2;
+        left: 5%;
+      }
+
+      .input-pair input {
+        width: 300px !important;
+      }
+    
+      .my-info-display-value{
+        width: 300px;
+      }
+
+      .login-rectangle{
+        overflow-y: auto;
+      }
+      .login-rectangle::-webkit-scrollbar {
+        display: none;
+    }
+    .change-pass-button{
+      top: 0;
+      margin-bottom: 5px;
+   
+    }
+
+    .button-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      gap: 55px;
+      position: relative;
+    }
+    .edit-button1{
+      width: 100px;
+      height: 37px;
+      background: #FD7401;
+      box-shadow: 0px 0px 19.665578842163086px rgba(0, 0, 0, 0.12);
+      border: none;
+      border-radius: 7.02px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-family: 'Acme';
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+    }
+
+    .save-button1 {
+      box-shadow: 0px 0px 19.665578842163086px rgba(0, 0, 0, 0.12);
+      border: none;
+      border-radius: 7.02px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-family: 'Acme';
+      cursor: pointer;
+      position: relative;
+      background-color: green; 
+      width: 100px;
+      height: 37px;
+      z-index: 2;
+      
+    }
   }
 
-  @media (max-width: 1143px) {
-    .my-info-style{
-      top: 50%;
+  @media (max-width: 858px) {
+    .input-pair input {
+      width: 200px !important;
+    }
+  
+    .my-info-display-value{
+      width: 200px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .input-pair input {
+      width: 130px !important;
+    }
+  
+    .my-info-display-value{
+      width: 130px;
+    }
+  }
+
+  @media (max-width: 470px) {
+    .my-account-title{
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .change-pic-button{
+      top: 60%;
     }
   }

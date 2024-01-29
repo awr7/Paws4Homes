@@ -1,32 +1,7 @@
-.white-account-rectangle {
-  background-color: white;
-  width: 1680.002px;
-  height: 936.924px;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: flex-end; 
-  position: relative; 
-  overflow: hidden;
-}
-
-.my-account-rectangle {
-    background-color: #D5EAEA;
-    width: 690px;
-    height: 732px;
-    flex-shrink: 0;
-    position: absolute;
-    top: 137px;
-    right: 196px;
-    display: flex; 
-    flex-direction: column; 
-    overflow: hidden;
-  }
-
 .my-account-title {
     color: black;
     font-size: 40px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
     word-wrap: break-word;
     margin-top: 31px;
     text-align: center;
@@ -109,14 +84,6 @@
     width: 350px;
 }
 
-
-  .adoption-input-group {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    margin-bottom: 16px;
-}
-
 .my-account-info {
     color: black;
     font-size: 40px;
@@ -176,10 +143,8 @@
     color: black;
     font-size: 40px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
-    word-wrap: break-word;
-    top: 221px;
-    position: absolute;
+    margin-bottom: 20px;
+    position: relative;
   }
 
   .my-account-field-group {
@@ -220,9 +185,6 @@
     box-shadow: 0px 0px 19.665578842163086px rgba(0, 0, 0, 0.12);
     border: none;
     border-radius: 7.02px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: white;
     font-size: 24px;
     font-family: 'Acme';
@@ -232,10 +194,48 @@
     position: relative;
   }
 
-  .my-editing-field {
-    position: relative;
+  .input-pair input {
+    width: 300px !important;
+  }
+
+  .my-info-display-value{
+    width: 300px;
   }
 
 
-
+  @media (max-width: 1766px) {
+    .input-pair input {
+      width: 190px !important;
+    }
   
+    .my-info-display-value{
+      width: 190px;
+    }
+    .change-pass-button{
+      left: 5%;
+    }
+    .edit-button{
+      left: 3.5%;
+      top: 12%;
+    }
+    .save-button{
+      left: 11.5%;
+      top: 12%;
+    }
+  }
+
+    @media (max-width: 1510px) {
+      .my-account-info{
+        display: none;
+      }
+
+      .my-account-white-circle{
+       
+      }
+  }
+
+  @media (max-width: 1143px) {
+    .my-info-style{
+      top: 50%;
+    }
+  }

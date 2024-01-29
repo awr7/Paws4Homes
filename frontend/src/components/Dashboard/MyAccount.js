@@ -1,5 +1,6 @@
 import paw from '../../assets/img/PawIconColor.png';
 import DisplayPair from '../Applications/DisplayPair';
+import InputPair  from '../Dashboard/InputPair'
 import './MyAccount.css'
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useRef  } from 'react';
@@ -114,7 +115,7 @@ const handleSave = async () => {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          // Include other headers as required, like authentication tokens
+
         },
         body: JSON.stringify({ newPassword }),
       });
@@ -174,39 +175,34 @@ const handleSave = async () => {
       }
     }
   };
-  
-
-
 
   return (
     <div className="login-container">
-      <div className="white-account-rectangle">
-        <div className="my-account-rectangle">
+      <div className="white-rectangle">
+        <div className="login-rectangle">
           <h2 className="my-account-title">Customize your profile!</h2>
           <div className="my-account-white-circle">
-  <img
-    src={profilePictureUrl || userProfilePic} // Use the uploaded image URL if available
-    alt="Profile"
-    className="my-account-image"
-    onClick={handleImageClick}
-  />
-  <input
-    type="file"
-    accept="image/*"
-    style={{ display: 'none' }}
-    ref={fileInputRef}
-    onChange={handleProfilePicChange}
-  />
-</div>
-<button className="change-pic-button" onClick={handleImageClick}>
-  <span className="change-pic-text">Choose New Profile Picture</span>
-</button>
-
-
+            <img
+              src={profilePictureUrl || userProfilePic}
+              alt="Profile"
+              className="my-account-image"
+              onClick={handleImageClick}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              ref={fileInputRef}
+              onChange={handleProfilePicChange}
+            />
+          </div>
+          <button className="change-pic-button" onClick={handleImageClick}>
+            <span className="change-pic-text">Choose New Profile Picture</span>
+          </button>
           <img src={paw} alt="Paw Icon" className="paw-icon" />
         </div>
         <h2 className="my-account-info">Change your information</h2>
-        <h4>Your email is the only thing hat cannot be changed.</h4>
+        <h4>Your email is the only thing that cannot be changed.</h4>
         <button className="edit-button" onClick={toggleEditMode}>
           {isEditMode ? "Undo" : "Edit"}
         </button>
@@ -217,68 +213,86 @@ const handleSave = async () => {
           </button>
         )}
         <div className="my-info-style">
-          
-        <div className="adoption-input-group">
-  {isEditMode ? (
-    isBusinessAccount ? (
-      <div className="form-field">
-        <label htmlFor="companyName" className="repassword-label">Company Name</label>
-        <input type="text" id="companyName" className="my-input" value={companyName} onChange={e => setCompanyName(e.target.value)} />
-      </div>
-    ) : (
-      <>
-        <div className="form-field">
-          <label htmlFor="firstName" className="repassword-label">First Name</label>
-          <input type="text" id="firstName" className="my-input" value={firstName} onChange={e => setFirstName(e.target.value)} />
+          <div className="input-group">
+            {isEditMode ? (
+              isBusinessAccount ? (
+                <InputPair
+                  label="Company Name"
+                  id="companyName"
+                  placeholder="Enter company name"
+                  value={companyName}
+                  onChange={e => setCompanyName(e.target.value)}
+                />
+              ) : (
+                <>
+                  <InputPair
+                    label="First Name"
+                    id="firstName"
+                    placeholder="Enter first name"
+                    value={firstName}
+                    onChange={e => setFirstName(e.target.value)}
+                  />
+                  <InputPair
+                    label="Last Name"
+                    id="lastName"
+                    placeholder="Enter last name"
+                    value={lastName}
+                    onChange={e => setLastName(e.target.value)}
+                  />
+                </>
+              )
+            ) : (
+              isBusinessAccount ? (
+                <DisplayPair label="Company Name" value={userData.company_name} customValueClass="my-info-display-value" />
+              ) : (
+                <>
+                  <DisplayPair label="First Name" value={userData.first_name} customValueClass="my-info-display-value" />
+                  <DisplayPair label="Last Name" value={userData.last_name} customValueClass="my-info-display-value" />
+                </>
+              )
+            )}
+          </div>
+
+          <div className="input-group">
+            <DisplayPair label="Email" value={userData.email} customValueClass="my-info-display-value" />
+
+            {!isEditMode && (
+              <DisplayPair label="Phone Number" value={userData.phone_number} customValueClass="my-info-display-value" />
+            )}
+
+            {isEditMode && (
+              <InputPair
+                label="Phone Number"
+                id="phoneNumber"
+                placeholder="Enter phone number"
+                value={phoneNumber}
+                onChange={e => setPhoneNumber(e.target.value)}
+              />
+            )}
+          </div>
+
+          <h3 className="change-password">Change your password</h3>
+          <div className="input-group">
+            <InputPair
+              label="Enter Password"
+              id="password"
+              placeholder="Enter your new password"
+              inputType="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <InputPair
+              label="Re-enter Password"
+              id="rePassword"
+              placeholder="Re-enter your new password"
+              inputType="password"
+              value={reNewPassword}
+              onChange={(e) => setReNewPassword(e.target.value)}
+            />
+          </div>
+
+          <button className="change-pass-button" onClick={handleChangePassword}>Change Password</button>
         </div>
-        <div className="form-field">
-          <label htmlFor="lastName" className="repassword-label">Last Name</label>
-          <input type="text" id="lastName" className="my-input" value={lastName} onChange={e => setLastName(e.target.value)} />
-        </div>
-      </>
-    )
-  ) : (
-    isBusinessAccount ? (
-      <DisplayPair label="Company Name" value={userData.company_name} customValueClass="my-info-display-value" />
-    ) : (
-      <>
-        <DisplayPair label="First Name" value={userData.first_name} customValueClass="my-info-display-value" />
-        <DisplayPair label="Last Name" value={userData.last_name} customValueClass="my-info-display-value" />
-      </>
-    )
-  )}
-</div>
-
-<div className="adoption-input-group">
-  <DisplayPair label="Email" value={userData.email} customValueClass="my-info-display-value" />
-  
-  {!isEditMode && (
-    <DisplayPair label="Phone Number" value={userData.phone_number} customValueClass="my-info-display-value" />
-  )}
-
-  {isEditMode && (
-    <div className="form-field">
-      <label htmlFor="phoneNumber" className="repassword-label">Phone Number</label>
-      <input type="text" id="phoneNumber" className="my-input" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
-    </div>
-  )}
-</div>
-
-            <h3 className="change-password">Change your password</h3>
-
-            <div className="my-account-field-group">
-            <div className="my-form-field password-field">
-        <label htmlFor="rePassword" className="repassword-label">Enter Password</label>
-        <input type="password" id="password" className="my-input" placeholder="Enter your new password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-      </div>
-    <div className="my-form-field password-field">
-        <label htmlFor="rePassword" className="repassword-label">Re-enter Password</label>
-        <input type="password" id="rePassword" className="my-input" placeholder="Re-enter your new password" value={reNewPassword} onChange={(e) => setReNewPassword(e.target.value)} />
-      </div>
-</div>
-
-<button className="change-pass-button" onClick={handleChangePassword}>Change Password</button>
-    </div>
       </div>
     </div>
   );

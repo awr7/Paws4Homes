@@ -3,8 +3,6 @@ import './DogInfo.css';
 import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-
 const DogInfo = () => {
   const { id } = useParams(); 
   const [dogDetails, setDogDetails] = useState(null);
@@ -17,7 +15,6 @@ const DogInfo = () => {
   const handleAdoptMeClick = () => {
     navigate(`/adopt/${id}`, { state: { dogDetails } }); 
   };
-
 
   useEffect(() => {
     const fetchDogDetails = async () => {
@@ -42,67 +39,40 @@ const DogInfo = () => {
     }
   }, [dogDetails]);
 
-  useLayoutEffect(() => {
-    let lastLineBottom = 0;
-  
-    fetchedDataRefs.current.forEach((el, index) => {
-      if (el) {
-        const height = el.offsetHeight;
-        const lineTopPosition = el.offsetTop + height + 15; 
-  
-        const line = document.createElement('div');
-        line.style.position = 'absolute';
-        line.style.width = '779px';
-        line.style.height = '1px';
-        line.style.backgroundColor = 'black';
-        line.style.top = `${lineTopPosition}px`;
-        line.style.left = '-309px'; 
-  
-        el.parentElement.appendChild(line);
-  
-        lastLineBottom = lineTopPosition + 1; 
-      }
-  
-      if (index === 6) {
-        setButtonTopPosition(lastLineBottom + 48);
-      }
-    });
-  }, [dogDetails]);
-  
-  
-
   if (!dogDetails) {
     return <div>Loading...</div>; 
   }
 
-
-
   return (
-    <div className="dog-info-container">
+    <div className="login-container">
       <div className="beige-rectangle">
-        <div className="fetched-dog-name">{dogDetails.name}</div>
-        <div className="fetched-label-container">
-        <div className="fetched-label">Breed: </div>
-        <div className="fetched-label">Age:  </div>
-        <div className="fetched-label">Color: </div>
-        <div className="fetched-label">Gender: </div>
-        <div className="fetched-label">Size: </div>
-        <div className="fetched-label">Date Posted: </div>
-        <div className="fetched-label">Bio: </div>
-      </div>
-
-      <div className="fetched-data-container">
-        <div className="fetched-data" ref={el => fetchedDataRefs.current[0] = el}>{dogDetails.breed}</div>
-        <div className="fetched-data" ref={el => fetchedDataRefs.current[1] = el}>{dogDetails.age} {dogDetails.age_unit}</div>
-        <div className="fetched-data" ref={el => fetchedDataRefs.current[2] = el}>{dogDetails.color}</div>
-        <div className="fetched-data" ref={el => fetchedDataRefs.current[3] = el}>{dogDetails.gender}</div>
-        <div className="fetched-data" ref={el => fetchedDataRefs.current[4] = el}>{dogDetails.size}</div>
-        <div className="fetched-data" ref={el => fetchedDataRefs.current[5] = el}>{dogDetails.date_added}</div>
-        <div className="fetched-data" ref={el => fetchedDataRefs.current[6] = el}>{dogDetails.bio}</div>
-        <div className="application-button" style={{ top: `${buttonTopPosition}px` }} onClick={handleAdoptMeClick}>
-            <span className="application-button-text">Adopt Me!</span>
+      <div className="dog-infos-container">
+      <div className="fetched-dog-name">{dogDetails.name}</div>
+      <div className="info-container">
+        <div className="label-container">
+          <div className="fetched-label">Breed:</div>
+          <div className="fetched-label">Age:</div>
+          <div className="fetched-label">Color:</div>
+          <div className="fetched-label">Gender:</div>
+          <div className="fetched-label">Size:</div>
+          <div className="fetched-label">Date Posted:</div>
+          <div className="fetched-label bio">Bio:</div>
+        </div>
+        <div className="data-container">
+          <div className="fetched-data">{dogDetails.breed}</div>
+          <div className="fetched-data">{dogDetails.age} {dogDetails.age_unit}</div>
+          <div className="fetched-data">{dogDetails.color}</div>
+          <div className="fetched-data">{dogDetails.gender}</div>
+          <div className="fetched-data">{dogDetails.size}</div>
+          <div className="fetched-data">{dogDetails.date_added}</div>
+          <div className="fetched-data bio">{dogDetails.bio}</div>
         </div>
       </div>
+      <div className="application-button" onClick={handleAdoptMeClick}>
+        <span className="application-button-text">Adopt Me!</span>
+      </div>
+      </div>
+      <div className="image-thumbnail-container">
       <div className="fetched-dog-image-container">
       <img 
         src={selectedImage} 
@@ -117,6 +87,7 @@ const DogInfo = () => {
           <img src={image} alt={`Thumbnail ${index}`} style={{ width: '98px', height: '116px' }} />
         </div>
       ))}
+    </div>
     </div>
       </div>
     </div>

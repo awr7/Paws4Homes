@@ -1,106 +1,100 @@
 .beige-rectangle {
     background-color: #EDEAE0;
-    width: 1680.002px;
-    height: 936.924px;
+    width: 87.9%;
+    height: 97.8vh;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Acme', sans-serif; 
   }
 
+  .dog-infos-container {
+    background-color: #EDEAE0;
+    width: 87.9%;
+    font-family: 'Acme', sans-serif;
+    display: flex;
+    position: relative;
+    left: 30%;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+  }
+  
   .fetched-dog-name {
     color: #FF7F50;
     font-size: 48px;
-    font-family: 'Acme', sans-serif; 
-    font-weight: 400;
-    line-height: 30.15px;
-    word-wrap: break-word;
-    position: absolute;
-    top: 228px;
-    left: 771px;
+    margin-top: 20px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
-
+  
+  .info-container {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .label-container, .data-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+  }
+  .label-container{
+    width: 120px;
+  }
+  .data-container{
+    width: 500px;
+  }
+  
+  .fetched-label, .fetched-data {
+    margin-bottom: 30px;
+    font-size: 21.11px;
+    border-bottom: 1px solid black;
+  }
+  
   .fetched-label {
     color: #8D8D8D;
-    font-size: 21.11px;
-    font-family: 'Acme', sans-serif; 
-    font-weight: 400;
-    line-height: 30.15px;
-    word-wrap: break-word;
   }
   
-  .fetched-label-container {
-    position: absolute;
-    top: 290px;
-    left: 787px;
-  }
-  
-  .fetched-label + .fetched-label {
-    margin-top: 33.17px;
-  }
-
   .fetched-data {
     color: #000000;
-    font-size: 21.11px;
-    font-family: 'Acme', sans-serif; 
-    font-weight: 400;
-    line-height: 30.15px;
-    word-wrap: break-word;
+  }
+  .fetched-label.bio {
+    height: 60px;
+  }
+  .fetched-data.bio {
+    max-height: 60px;
+    overflow-y: auto;
   }
   
-  .fetched-data-container {
-    position: absolute;
-    top: 290px;
-    left: 1080px;
-    max-width: 470.002px; 
-  }
-  
-  .fetched-data + .fetched-data {
-    margin-top: 33.17px;
-  }
-
-  .horizontal-line {
-    width: 779px;
-    height: 1px; 
-    background-color: black; 
-    position: absolute;
-  }
-
-  .fetched-data-container .fetched-data {
-    position: relative;
-  }
-
   .application-button {
-    position: absolute;
     width: 224px;
     height: 49px;
-    padding-top: 10px;
-    padding-bottom: 9px;
-    padding-left: 24px;
-    padding-right: 25px;
+    padding: 10px 24px;
     background: #FD7401;
     box-shadow: 0px 0px 19.665578842163086px rgba(0, 0, 0, 0.12);
     border-radius: 7.02px;
     border: 1px black solid;
+    display: flex;
     justify-content: center;
     align-items: center;
-    display: inline-flex;
     cursor: pointer;
+    margin-top: 20px;
   }
   
   .application-button-text {
-    text-align: center;
     color: white;
     font-size: 24px;
-    font-family: 'Acme', sans-serif;
-    font-weight: 400;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  }
+  
+  .image-thumbnail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: -45%;
+    margin-top: 15vh;
+    position: relative;
   }
 
   .fetched-dog-image-container {
-    position: absolute;
-    top: 207px;
-    left: 271px;
     width: 438px;
     height: 517px;
     border-radius: 16px; 
@@ -109,29 +103,61 @@
   }
 
   .thumbnails-container {
-    position: absolute;
-    top: 724px; 
-    left: 231px; 
+    position: relative;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
   }
   
   .thumbnail {
-    width: 98px;
-    height: 116px;
     cursor: pointer; 
     border-radius: 5px; 
     overflow: hidden; 
     border: 1px solid black;
   }
-  
-  
-  
-  
-  
 
+  @media (max-width: 1527px) {
+    .beige-rectangle {
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: flex-start;
+      height: auto;
+      overflow-y: auto;
+    }
 
+    .image-thumbnail-container {
+      left: 0;
+    }
   
+    .dog-infos-container {
+      width: 100%;
+      left: 0;
+      margin-bottom: 5%;
+    }
   
-  
+    .thumbnails-container {
+      left: 0;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 781px) {
+    .data-container{
+      width: 300px;
+    }
+  }
+
+  @media (max-width: 557px) {
+    .data-container{
+      width: 150px;
+    }
+    .fetched-dog-image-container{
+      width: 80%;
+      height: 70vw;
+    }
+    .thumbnail{
+      width: 88px;
+      height: 106px;
+    }
+  }

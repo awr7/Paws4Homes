@@ -188,21 +188,14 @@
 }
 
 .small-new-post-button {
-  width: 196px;
+  padding: 5px;
   height: 45px;
-  padding-top: 10px;
-  padding-bottom: 5px;
-  padding-left: 52px;
-  padding-right: 53px;
   background-color: #FD7401;
-  box-shadow: 0px 0px 19.665578842163086px rgba(0, 0, 0, 0.12);
   border-radius: 7.02px;
   justify-content: center;
   align-items: center;
   display: inline-flex;
-  position: absolute;
-  top: 51px;
-  right: 48px;
+  position: relative;
   cursor: pointer;
 }
 
@@ -221,19 +214,14 @@
   height: 53px;
   background-color: #f1f1f1;
   border: 1px solid black;
-  position: absolute;
-  top: 146px;
-  display: flex; 
-  justify-content: space-between;
+  position: relative;
+  align-items: center;
 }
 
 .listing-label {
   color: black;
   font-size: 32px;
   font-family: 'Acme';
-  font-weight: 400;
-  word-wrap: break-word;
-
 }
 
 .name {

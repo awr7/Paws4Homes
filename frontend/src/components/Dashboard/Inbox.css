@@ -4,57 +4,63 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
   .inbox-profile-rectangle {
-    width: 289px;
-    height: 909px;
+    width: 17%;
+    height: 98%;
     background-color: #D5EAEA;
     border-radius: 14.05px;
-    position: absolute;
-    top: 14px;
-    left: 14px;
+    position: relative;
+    justify-content: center;
+    display:flex;
 }
 
 .inbox-welcome-text {
     color: black;
     font-size: 28px;
     font-family: 'Acme';
-    font-weight: 400;
-    position: absolute;
-    top: 193px;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
+    position: relative;
+    top: 21vh;
 }
 
 .inbox-rectangle {
-    width: 1273px; 
-    height: 831px;
+    width: 77%; 
+    height: 89%;
     border-radius: 14.05px;
     border: 1px solid black;
-    position: absolute;
-    top: 91px;
-    left: 355px;
+    position: relative;
+    top: 9vh;
+    margin-left: 3%;
+    margin-right: 3%;
+    overflow: hidden;
   }
 
+  .search-and-actions-container {
+    display: flex;
+    align-items: center;
+    gap: 6%;
+    padding: 0 20px;
+    margin-top: 5vh;
+    margin-bottom: 2vh;
+  }
+  
+
   .inbox-search-bar {
-    width: 877px;
+    width: 65%;
     height: 53px;
     background: white;
     border-radius: 39.94px;
     border: 2.85px solid black;
-    position: absolute;
-    left: 61px; 
-    top: 50px; 
+    position: relative;
+    left: 5%; 
     padding: 0 20px;
     display: flex;
-    align-items: center;
   }
 
   .inbox-search-bar input {
     color: #8D8D8D;
-    font-size: 24px;
     font-family: 'Poppins', sans-serif;
     width: 100%;
     border: none;
@@ -63,80 +69,115 @@
   }
   
   .inbox-magnifying-glass {
-    width: 38px;
-    height: 38px;
-    position: absolute;
-    left: 949px;
-    top: 55px;
+    width: 40px;
+    position: relative;
+  }
+
+  .horizontal-line {
+    height: 1px;
+    background-color: black;
+    width: 100%;
   }
   
-  .message {
-    margin-right: 703px; 
+
+  .message-list-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+  .message-header, .message-row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-column, .message-column {
+    text-align: center;
   }
 
-  .line.line4 {
-    top: 488px;
-    width: 683px;
-    transform: rotate(90deg);
-}
-.line.line8 {
-  top: 278px; 
-}
+  .header-column:first-child, .message-column:first-child {
+    flex: 0.3; 
+  }
 
-.line.line7 {
-  top: 436px; 
-}
-
-.line.line5 {
-  top: 594px; 
-}
-
-.line.line6 {
-  top: 752px; 
-}
-
-.inbox-data-first {
-    margin-top: 66px; 
-    color: black;
-    font-size: 32px;
-    font-family: 'Calibri';
-    font-weight: 400;
-    word-wrap: break-word;
-    margin-top: 30px; 
-    white-space: nowrap;        
-    overflow: hidden;           
-    text-overflow: ellipsis;    
-    max-width: 850px; 
+  .header-column:last-child, .message-column:last-child {
+    flex: 0.7;
+  }
+  
+  .vertical-separator {
+    width: 1px;
+    background-color: #000;
+    position: absolute;
+    height: 100vh;
+    left: 25%;
+    top: 0;
+    bottom: 0;
   }
   
   .inbox-data {
     color: black;
     font-size: 32px;
     font-family: 'Calibri';
-    font-weight: 400;
-    word-wrap: break-word;
     margin-top: 30px; 
     white-space: nowrap;        
     overflow: hidden;           
     text-overflow: ellipsis;    
-    max-width: 850px; 
+    max-width: 45vw; 
   }
 
-  .listing-label {
-    color: black;
-    font-size: 32px;
-    font-family: 'Acme';
-    font-weight: 400;
-    word-wrap: break-word;
-  
+
+  @media (max-width: 1400px) {
+    .inbox-profile-rectangle{
+      display: none;
+    }
+    .inbox-rectangle{
+      width: 100%;
+    }
+    .inbox-data{
+      max-width: 59vw;
+    }
   }
 
-  .label-data-container {
-    display: flex;
-    flex-direction: column;
-    margin-right: 20px; 
+  @media (max-width: 1060px) {
+    .inbox-data{
+      font-size: 24px;
+    }
+    .small-new-post-text{
+      font-size: 18px !important;
+    }
   }
 
-  .inbox-name {
-    margin-left: 20px; 
+  @media (max-width: 780px) {
+    .inbox-data{
+      font-size: 16px;
+    }
+    .listing-label {
+      font-size: 24px !important;
+    }
+    .inbox-search-bar{
+      width: 60%;
+    }
+    .small-new-post-text{
+      font-size: 12px !important;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .inbox-data{
+      font-size: 12px;
+    }
+    .search-and-actions-container{
+      padding: 0 10px;
+    }
+    .inbox-search-bar{
+      width: 40%;
+    }
+  }
+
+  @media (max-width: 387px) {
+    .inbox-data{
+      font-size: 10px;
+    }
+    .listing-label {
+      font-size: 18px !important;
+    }
   }

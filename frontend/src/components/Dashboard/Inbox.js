@@ -84,62 +84,62 @@ const InboxPage = () => {
   return (
     <div className="inbox-container">
       <div className="white-rectangle">
-      <div className="inbox-profile-rectangle">
-        <div className="inbox-welcome-text">
-          Welcome, {userData.is_business_account ? userData.company_name : `${userData.first_name}`}
-        </div>
-        <div className="white-circle">
-        <img src={userProfilePic} alt="Profile" className="circle-image"/>
+        <div className="inbox-profile-rectangle">
+          <div className="inbox-welcome-text">
+            Welcome, {userData.is_business_account ? userData.company_name : `${userData.first_name}`}
+          </div>
+          <div className="white-circle">
+            <img src={userProfilePic} alt="Profile" className="circle-image"/>
           </div>
           <div className="email-text">{userData.email}</div>
           <div className="edit-profile-button" onClick={handleEditProfileClick}>
             <div className="edit-profile-text">Edit profile</div>
           </div>
+        </div>
+        <div className="inbox-rectangle">
+        <div className="search-and-actions-container">
+          <div className="inbox-search-bar">
+            <input type="text" placeholder="Search inbox" />
+          </div>
+          <img src={magnifyGlass} alt="Magnify Glass" className="inbox-magnifying-glass"/>
+  
+          <div className="small-new-post-button">
+            <div className="small-new-post-text">New Message</div>
+          </div>
+          </div>
+          <div className="label-rectangle">
+            <div className="message-header">
+              <div className="header-column">
+                <div className="listing-label">From:</div>
               </div>
-              <div className="inbox-rectangle">
-              <div className="inbox-search-bar">
-                    <input type="text" placeholder="Search inbox" />
-                </div>
-                <img src={magnifyGlass} alt="Magnify Glass" className="inbox-magnifying-glass"/>
-
-                <div className="small-new-post-button" >
-                    <div className="small-new-post-text">New Message</div>
-                </div>
-                <div className="label-rectangle">
-                <div className="label-data-container">
-            <div className="listing-label inbox-name">From:</div>
-            {latestMessages.map((message, index) => (
-        <Link to={`/messages/${message.sender_id}`} key={message.sender_id}>
-            <div className={index === 0 ? "inbox-data-first inbox-name" : "inbox-data inbox-name"}>
-                {message.sender_name}
-            </div>
-        </Link>
-    ))}
-</div>
-
-<div className="label-data-container">
-    <div className="listing-label message">Last Message</div>
-    {latestMessages.map((message, index) => (
-        <Link to={`/messages/${message.sender_id}`} key={message.sender_id}>
-            <div className={index === 0 ? "inbox-data-first" : "inbox-data"}>
-                {message.content}
-            </div>
-        </Link>
-    ))}
-</div>
-
-                </div>
-                <div className="line line1"></div>
-                <div className="line line2"></div>
-                <div className="line line3"></div>
-                <div className="line line4"></div>
-                <div className="line line5"></div>
-                <div className="line line6"></div>
-                <div className="line line7"></div>
-                <div className="line line8"></div>
+              <div className="vertical-separator"></div>
+              <div className="header-column">
+                <div className="listing-label">Last Message:</div>
               </div>
             </div>
           </div>
+          <div className="message-list-container">
+            {latestMessages.map((message, index) => (
+              <React.Fragment key={message.sender_id}>
+                <div className="message-row">
+                  <div className="message-column">
+                    <Link to={`/messages/${message.sender_id}`}>
+                      <div className="inbox-data">{message.sender_name}</div>
+                    </Link>
+                  </div>
+                  <div className="message-column">
+                    <Link to={`/messages/${message.sender_id}`}>
+                      <div className="inbox-data">{message.content}</div>
+                    </Link>
+                  </div>
+                </div>
+                {index < latestMessages.length - 1 && <div className="horizontal-line"></div>}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

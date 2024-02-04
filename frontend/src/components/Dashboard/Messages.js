@@ -1,7 +1,7 @@
 import './Inbox.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Messages.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 const MessagesPage = () => {
  
@@ -12,7 +12,7 @@ const messagesEndRef = useRef(null);
 const { receiverID } = useParams();
 const loggedInUserId = localStorage.getItem('userId');
 console.log("Logged in user ID:", loggedInUserId);
-const [userData, setUserData] = useState({}); // Initialize as an empty object
+const [userData, setUserData] = useState({});
 const [isLoading, setIsLoading] = useState(true);
 const navigate = useNavigate();
 
@@ -20,8 +20,12 @@ const navigate = useNavigate();
 const MAX_CHAR_LIMIT = 150;
   
     const scrollToBottom = () => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      const messagesContainer = messagesEndRef.current?.parentNode;
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
     };
+
   
     useEffect(() => {
       scrollToBottom();
@@ -60,7 +64,7 @@ const MAX_CHAR_LIMIT = 150;
   
   
 
-      const fetchMessages = async () => {
+      const fetchMessages = useCallback (async () => {
         if (!receiverID) return;
     
         try {
@@ -76,7 +80,7 @@ const MAX_CHAR_LIMIT = 150;
         } catch (error) {
           console.error('Error fetching messages:', error);
         }
-      };
+      }, [receiverID]);
 
       const sendMessage = async (receiverID, messageContent) => {
         // Make sure messageContent is the actual message text
@@ -104,7 +108,7 @@ const MAX_CHAR_LIMIT = 150;
       
       useEffect(() => {
         fetchMessages();
-      }, [receiverID]);
+      }, [fetchMessages, receiverID]);
 
       useEffect(() => {
         const fetchUserProfile = async () => {

@@ -97,9 +97,9 @@ const handleEditProfileClick = () => {
 };
 
   return (
-    <div className="manage-container">
+    <div className="inbox-container">
       <div className="white-rectangle">
-        <div className="profile-rectangle">
+        <div className="inbox-profile-rectangle">
         <div className="welcome-text"> 
         Welcome, {userData.is_business_account ? userData.company_name : `${userData.first_name}`}
         </div>
@@ -111,82 +111,58 @@ const handleEditProfileClick = () => {
             <div className="edit-profile-text">Edit profile</div>
           </div>
         </div>
-        <div className="listings-rectangle">
+        <div className="inbox-rectangle">
           {userDogListings.length === 0 ? (
             <>
               <div className="postdog-heading">Post your first dog for adoption</div>
               <div className="listings-subheading">
                 You do not have any active listings, post now and we can help connect your dog to his forever home.
               </div>
-              <div className="new-post-button" onClick={navigateToPostDog}>
-                <div className="new-post-text">New Post</div>
+              <div className="small-new-post-button" onClick={navigateToPostDog}>
+                <div className="small-new-post-text">New Post</div>
               </div>
             </>
           ) : (
             <>
-                <div className="listings-search-bar">
-                    <input type="text" placeholder="Search listings" />
+        <div className="search-and-actions-container">
+          <div className="inbox-search-bar">
+            <input type="text" placeholder="Search inbox" />
+          </div>
+          <img src={magnifyGlass} alt="Magnify Glass" className="inbox-magnifying-glass"/>
+  
+          <div className="small-new-post-button" onClick={navigateToPostDog}>
+                <div className="small-new-post-text">New Post</div>
+              </div>
+          </div>
+          <div className="label-rectangle">
+              <div className="listing-label">Image</div>
+              <div className="listing-label">Name</div>
+              <div className="listing-label">Age</div>
+              <div className="listing-label">Breed</div>
+              <div className="listing-label">Status</div>
+              <div className="listing-label">Action</div>
+            </div>
+            {userDogListings.map((listing, index) => (
+              <div key={index} className="listing-row">
+                <div className="doggy-image-container">
+                  <img src={listing.images[0]} alt="Dog" className="doggy-image"/>
                 </div>
-                <img src={magnifyGlass} alt="Magnify Glass" className="magnifying-glass"/>
-                <div className="small-new-post-button" onClick={navigateToPostDog}>
-                    <div className="small-new-post-text">New Post</div>
-                </div>
-                <div className="label-rectangle">
-                <div className="label-data-container">
-                            <div className="listing-label name">Name</div>
-                            {userDogListings.map((listing, index) => (
-                                <div key={index} className={index === 0 ? "listing-data-first name" : "listing-data name"}>{listing.name}</div>
-                            ))}
-                        </div>
-                        {/* Age Label */}
-                        <div className="label-data-container">
-                            <div className="listing-label">Age</div>
-                            {userDogListings.map((listing, index) => (
-                                <div key={index} className={index === 0 ? "listing-data-first" : "listing-data"}>{listing.age} {listing.age_unit}</div>
-                            ))}
-                        </div>
-                        {/* Breed Label */}
-                        <div className="label-data-container">
-                            <div className="listing-label">Breed</div>
-                            {userDogListings.map((listing, index) => (
-                                <div key={index} className={index === 0 ? "listing-data-first" : "listing-data"}>{listing.breed}</div>
-                            ))}
-                        </div>
-                  {/* Status Label */}
-                  <div className="label-data-container">
-                    <div className="listing-label">Status</div>
-                    {userDogListings.map((listing, index) => (
-                        <div key={index} className={`${index === 0 ? "listing-data-first" : "listing-data"} active-status`}>Active</div>
-                    ))}
-                </div>
-                 {/* Action Label */}
-                <div className="label-data-container">
-                  <div className="listing-label action">Action</div>
-                  {userDogListings.map((listing, index) => (
-                    <div key={index} className={index === 0 ? "listing-data-first action-dropdown" : "listing-data action-dropdown"}>
-                      <button onClick={() => handleToggleDropdown(listing.id)} className="dropdown-toggle">
-                        Actions
-                      </button>
-                      {activeDropdown === listing.id && (
-                        <div className="dropdown-content">
-                          <button onClick={() => handleEdit(listing)} className="dropdown-item">Edit</button>
-                          <button onClick={() => handleDelete(listing.id)} className="dropdown-item">Delete</button>
-                        </div>
-                      )}
+                <div className="dog-info">{listing.name}</div>
+                <div className="dog-info">{listing.age} {listing.age_unit}</div>
+                <div className="dog-info">{listing.breed}</div>
+                <div className="dog-status">Active</div>
+                <div className="dog-action">
+                  <button onClick={() => handleToggleDropdown(listing.id)} className="action-button">Action</button>
+                  {activeDropdown === listing.id && (
+                    <div className="dropdown-content">
+                      <button onClick={() => handleEdit(listing)} className="dropdown-item">Edit</button>
+                      <button onClick={() => handleDelete(listing.id)} className="dropdown-item">Delete</button>
                     </div>
-                  ))}
+                  )}
                 </div>
-                </div>
-                <div className="line line1"></div>
-                <div className="line line2"></div>
-                <div className="line line3"></div>
-
-                <div className="image-container">
-                        {userDogListings.map((listing, index) => (
-                            <img key={index} src={listing.images[0]} alt={listing.name} className="profile-image" />
-                        ))}
-                    </div>
-            </>
+              </div>
+            ))}
+          </>
         )}
       </div>
     </div>

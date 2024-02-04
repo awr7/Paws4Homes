@@ -33,7 +33,7 @@
     top: 9vh;
     margin-left: 3%;
     margin-right: 3%;
-    overflow: hidden;
+    overflow-y:auto;
   }
 
   .search-and-actions-container {
@@ -45,6 +45,14 @@
     margin-bottom: 2vh;
   }
   
+  .labely-rectangle {
+    width: 100%;
+    height: 53px;
+    background-color: #f1f1f1;
+    border: 1px solid black;
+    position: relative;
+    align-items: center;
+  }
 
   .inbox-search-bar {
     width: 65%;
@@ -177,6 +185,6 @@
       font-size: 10px;
     }
     .listing-label {
-      font-size: 18px !important;
+      font-size: 18px;
     }
   }

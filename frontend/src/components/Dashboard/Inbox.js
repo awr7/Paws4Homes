@@ -107,7 +107,7 @@ const InboxPage = () => {
             <div className="small-new-post-text">New Message</div>
           </div>
           </div>
-          <div className="label-rectangle">
+          <div className="labely-rectangle">
             <div className="message-header">
               <div className="header-column">
                 <div className="listing-label">From:</div>

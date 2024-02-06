@@ -16,7 +16,7 @@ const MatchedPage = () => {
                 }
                 const data = await response.json();
                 // Assuming the dog with ID 25 is always in the list
-                const dog = data.find(d => d.id === 25);
+                const dog = data.find(d => d.id === 1);
                 setMatchedDog(dog);
             } catch (error) {
                 console.error('Error fetching dog data:', error);

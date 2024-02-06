@@ -20,12 +20,6 @@
     padding-left: 20px;
 }
 
-@media (max-width:1000px) {
-    .input-pair select {
-        width: 200px;
-    }
-}
-
 @media (max-width:535px) {
     .input-pair select {
         width: 120px;

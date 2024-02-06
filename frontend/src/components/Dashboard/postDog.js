@@ -119,12 +119,12 @@ const PostDog = () => {
         }
     };
   return (
-    <div className="manage-container">
+    <div className="login-container">
       <div className="beige-rectangle">
-      <div className="heading-text">
+            <div className="form-style">
+            <div className="heading-text">
           List Your Dog for Adoption Here!
             </div>
-            <div className="form-style">
           <div className="input-group">
           <InputPair label="Name" id="name" placeholder="Name" value={dogName} onChange={(e) => setDogName(e.target.value)} />
           <InputPair label="Breed" id="breed" placeholder="Breed" value={dogBreed} onChange={(e) => setDogBreed(e.target.value)} />
@@ -144,10 +144,11 @@ const PostDog = () => {
           <div className="input-group">
           <InputPair label="Bio" id="bio" placeholder="Add some fun facts about the dog!" isTextArea={true} value={dogBio} onChange={(e) => setDogBio(e.target.value)} />
           </div>
-          </div>
           <div className="submit-button" onClick={handleSubmit}>
             Submit Your Listing
             </div>
+            </div>
+        <div className="image-thumbnail-container">
         <div className="card-preview-text">Card Preview</div>
         <div
           className="dog-card-container"
@@ -189,6 +190,7 @@ const PostDog = () => {
             />
           </div>
           ))}
+        </div>
         </div>
       </div>
     </div>

@@ -22,6 +22,8 @@
     font-family: 'Acme';
     position: relative;
     top: 21vh;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .inbox-rectangle {

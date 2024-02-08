@@ -93,13 +93,13 @@ const handleSubmit = async (event) => {
 
   return (
       <div className="signup-container">
-          <div className="white-rectangle">
+          <div className="white1-rectangle">
               <div className="application-rectangle">
                   <div className="application-heading-text">Adoption Application</div>
                   <div className="application-text">
                   You are one step closer to adopting {dogDetails.name} 
                   </div>
-                  <img src={paw} alt="Paw Icon" className="paw-pic" />
+                  <img src={paw} alt="Paw Icon" className="paw-icon" />
                   <div className="adop-dog-card"> 
                   <DogCard 
                     image={dogDetails.images[0]}
@@ -121,26 +121,26 @@ const handleSubmit = async (event) => {
                 </div>
 
     <div className="adoption-input-group">
-          <InputPair label="Why do you want to bring a new pet into your home?" id="why" placeholder="Your reason" isTextArea={true} value={whyAdopt} onChange={(e) => setWhyAdopt(e.target.value)} />
+          <InputPair label="Why do you want a dog?" id="why" placeholder="Your reason" isTextArea={true} value={whyAdopt} onChange={(e) => setWhyAdopt(e.target.value)} />
                 </div>
 
     <div className="adoption-input-group">
-            <InputPair label="On average, how many hours will the dog be home alone?" id="aloneTime" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'Less than 1 hour', label: 'Less than 1 hour' }, { value: 'Between 1-2 hours', label: 'Between 1-2 hours' }, { value: 'Betwen 2-4 hours', label: 'Between 2-4 hours' }, { value: 'More than 5 hours', label: 'More than 5 hours' }]} value={aloneTime} onChange={(e) => setAloneTime(e.target.value)} />
+            <InputPair label="Average hours alone?" id="aloneTime" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'Less than 1 hour', label: 'Less than 1 hour' }, { value: 'Between 1-2 hours', label: 'Between 1-2 hours' }, { value: 'Betwen 2-4 hours', label: 'Between 2-4 hours' }, { value: 'More than 5 hours', label: 'More than 5 hours' }]} value={aloneTime} onChange={(e) => setAloneTime(e.target.value)} />
                     <InputPair label="Do you live in a?" id="houseType" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'House', label: 'House' }, { value: 'Apartment', label: 'Apartment' }, { value: 'Other', label: 'Other' }]} value={houseType} onChange={(e) => setHouseType(e.target.value)} />
                 </div>
 
     <div className="adoption-input-group">
-    <InputPair label="Do you own your home?" id="homeOwner" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'Yes', label: 'Yes' }, { value: 'No', label: 'No' }]} value={homeOwner} onChange={(e) => setHomeOwner(e.target.value)} />
-                    <InputPair label="Have you owned a dog before?" id="dogOwner" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'Yes', label: 'Yes' }, { value: 'No', label: 'No' }]} value={dogOwner} onChange={(e) => setDogOwner(e.target.value)} />
+    <InputPair label="Home owner?" id="homeOwner" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'Yes', label: 'Yes' }, { value: 'No', label: 'No' }]} value={homeOwner} onChange={(e) => setHomeOwner(e.target.value)} />
+                    <InputPair label="Own dogs before?" id="dogOwner" inputType="dropdown" options={[{ value: '', label: 'Choose', disabled: true, selected: true },{ value: 'Yes', label: 'Yes' }, { value: 'No', label: 'No' }]} value={dogOwner} onChange={(e) => setDogOwner(e.target.value)} />
                 </div>
 
     <div className="adoption-input-group">
     <InputPair label="Add a note (optional)" id="note" placeholder="Any additional information" isTextArea={true} value={additionalNote} onChange={(e) => setAdditionalNote(e.target.value)} />
                 </div>
-</div>
-<button type="submit" className="adoption-button" onClick={handleSubmit}>
+        <button type="submit" className="adoption-button" onClick={handleSubmit}>
     <span className="adoption-button-text">Submit Application</span>
-</button>
+        </button>
+    </div>
               </div>
           </div>
   );

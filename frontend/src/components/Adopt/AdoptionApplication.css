@@ -1,21 +1,21 @@
-  .signup-container {
-    background-color: #f1f1f1;
-    min-height: 100vh; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
+.white1-rectangle {
+  background-color: white;
+  width: 87.9%;
+  height: 97.8vh;
+  display: flex;
+  justify-content:flex-start; 
+  position: relative; 
+  overflow-y: auto;
+}
 
-  .application-rectangle {
-    width: 690px;
-    height: 909px;
+.application-rectangle {
+    width: 30vw;
+    height: 98%;
     background: #D5EAEA;
     border-radius: 14.05px;
-    position: absolute;
-    top: 14px; 
-    left: 14px; 
+    position: relative;
     overflow: hidden;
+    justify-content: center;
 }
 
 .application-heading-text {
@@ -34,34 +34,18 @@
     text-align: center; 
 }
 
-
-
-
-.paw-pic {
-    width: auto; 
-    height: auto; 
-    position: absolute;
-    left: 390px; 
-    top: 550px; 
-  }
-
   .adoption-button {
     width: 446px;
     height: 76px;
-    padding-top: 26.22px;
-    padding-bottom: 19.63px;
-    padding-left: 76.84px;
-    padding-right: 77.77px;
     background: #FD7401;
     box-shadow: 0px 0px 19.67px rgba(0, 0, 0, 0.12);
     border-radius: 7.02px;
     justify-content: center;
     align-items: center;
-    display: inline-flex;
     cursor: pointer; 
-    bottom: 44px;
-    left: 1031px;
-    position: absolute;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     
 }
 
@@ -70,23 +54,24 @@
     color: white;
     font-size: 24px;
     font-family: 'Acme', sans-serif;
-    font-weight: 400;
-    word-wrap: break-word;
 }
 
 .adop-dog-card {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-top: 80px;
+    align-self: center;
+    position: relative;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
   }
 
   .adoption-form-style {
-    width: 100%;
-    height: 100%;
+    height: auto;
     position: relative;
-    top: 103px; 
-    left: 774px; 
+    top: 10vh;
+    left: 5vw;
 }
 
 .adoption-input-group {
@@ -94,4 +79,32 @@
     justify-content: flex-start;
     flex-wrap: nowrap;
     margin-bottom: 16px;
+}
+
+@media (max-width: 1510px) {
+  .adop-dog-card{
+    width: 80%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .application-rectangle{
+    display: none;
+  }
+  .adoption-form-style{
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-height: 740px) {
+  .adoption-form-style{
+    top: 20vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .adoption-button{
+    width: 70%;
+  }
 }

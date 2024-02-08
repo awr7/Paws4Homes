@@ -94,7 +94,7 @@ const ApplicationDetails = () => {
                     <div className="application-text">
                     {application.first_name} {application.last_name} submitted this application to adopt {dogDetails.name}! 
                     </div>
-                    <img src={paw} alt="Paw Icon" className="paw-pic" />
+                    <img src={paw} alt="Paw Icon" className="paw-icon" />
                     <div className="adop-dog-card"> 
                     <DogCard 
                       image={dogDetails.images[0]}
@@ -132,8 +132,7 @@ const ApplicationDetails = () => {
       <div className="adoption-input-group">
       <DisplayPair label="Additional Note" value={application.additional_note} isLongText={true} />
                   </div>
-  </div>
-            {isCurrentUserOwner && (
+                  {isCurrentUserOwner && (
             <div className="application-actions">
                 <button className="accept-button" onClick={handleAccept}>Accept Application</button>
                 <button className="deny-button" onClick={handleDeny}>Deny Application</button>
@@ -145,6 +144,7 @@ const ApplicationDetails = () => {
                 <button className="chat-button" onClick={handleChat}>Chat with Shelter/Breeder</button>
             </div>
             )}
+  </div>
                 </div>
             </div>
     );

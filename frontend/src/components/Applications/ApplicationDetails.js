@@ -88,7 +88,7 @@ const ApplicationDetails = () => {
 
   return (
         <div className="signup-container">
-            <div className="white-rectangle">
+            <div className="white1-rectangle">
                 <div className="application-rectangle">
                     <div className="application-heading-text">Adoption Application</div>
                     <div className="application-text">
@@ -120,7 +120,7 @@ const ApplicationDetails = () => {
                   </div>
   
       <div className="adoption-input-group">
-      <DisplayPair label="On average, how many hours will the dog be home alone?" value={application.alone_time} />
+      <DisplayPair label="Hours alone?" value={application.alone_time} />
       <DisplayPair label="Hose type:" value={application.house_type} />
                     </div>
   

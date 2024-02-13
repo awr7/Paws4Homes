@@ -11,6 +11,7 @@ const InboxPage = () => {
   const [userData, setUserData] = useState({});
   const [userProfilePic, setUserProfilePic] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -19,8 +20,8 @@ const InboxPage = () => {
               method: 'GET',
               headers: {
                   'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}`,
               },
-              credentials: 'include', // Include this line if using session-based auth
           });
   
           if (!response.ok) {
@@ -56,7 +57,9 @@ const InboxPage = () => {
         console.log('Fetching user profile...');
         const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/user_profile/${loggedInUserId}/`, {
           method: 'GET',
-          credentials: 'include',
+          headers: {
+            'Authorization': `Token ${token}`,
+            },
         });
   
         if (!response.ok) {

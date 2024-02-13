@@ -10,6 +10,7 @@ const ManageListingsPage = () => {
   const [userData, setUserData] = useState({});
   const [userProfilePic, setUserProfilePic] = useState('');
   const loggedInUserId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
 
   const navigateToPostDog = () => {
     navigate('/manage-listings/post');
@@ -26,7 +27,9 @@ const ManageListingsPage = () => {
         try {
             const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/delete-dog-listing/${listingId}/`, {
                 method: 'DELETE',
-                credentials: 'include',
+                headers: {
+                  'Authorization': `Token ${token}`,
+                  },
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -44,7 +47,9 @@ const ManageListingsPage = () => {
       try {
         const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/get-user-dog-listings/', {
         method: 'GET',
-       credentials: 'include' 
+        headers: {
+          'Authorization': `Token ${token}`,
+          },
     });
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -71,7 +76,9 @@ useEffect(() => {
       console.log('Fetching user profile...');
       const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/user_profile/${loggedInUserId}/`, {
         method: 'GET',
-        credentials: 'include',
+        headers: {
+          'Authorization': `Token ${token}`,
+          },
       });
 
       if (!response.ok) {

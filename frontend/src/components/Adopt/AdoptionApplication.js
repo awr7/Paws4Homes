@@ -21,12 +21,13 @@ const AdoptionApplication = () => {
   const [homeOwner, setHomeOwner] = useState('');
   const [dogOwner, setDogOwner] = useState('');
   const [additionalNote, setAdditionalNote] = useState('');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetch('https://paws4home-2502a21fe873.herokuapp.com/get-user-details/', {
         method: 'GET',
-        credentials: 'include',  
         headers: {
+            'Authorization': `Token ${token}`,
             'Content-Type': 'application/json',
         }
     })
@@ -69,9 +70,9 @@ const handleSubmit = async (event) => {
   try {
       const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/create-adoption-application/', {
           method: 'POST',
-          credentials: 'include',
           headers: {
-              'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json',
               
           },
           body: JSON.stringify(formData)

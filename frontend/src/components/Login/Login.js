@@ -10,7 +10,7 @@ const Login = ({handleLogin} ) => {
 
     const [loginError, setLoginError] = useState('');  // State to store login error
 
-    const handleLoginFormSubmit  = async (event) => {
+    const handleLoginFormSubmit = async (event) => {
       event.preventDefault();
       
       const formData = new FormData(event.target);
@@ -22,7 +22,6 @@ const Login = ({handleLogin} ) => {
               headers: {
                   'Content-Type': 'application/json',
               },
-              credentials: 'include',
               body: JSON.stringify(payload),
           });
   
@@ -32,19 +31,21 @@ const Login = ({handleLogin} ) => {
   
           const data = await response.json();
           
-          if (response.ok) {
-            handleLogin(data.userId, data.isBusiness); 
-            console.log('userID in Login.js: ', data.userId) // Call the handleLogin passed from App.js
-            navigate('/');  // Redirect to homepage
-
+          if (data.token) {
+              localStorage.setItem('token', data.token);
+              handleLogin(data.userId, data.isBusiness);
+              console.log('userID in Login.js: ', data.userId);
+              navigate('/');
           } else {
-              setLoginError(data.error || 'Login failed');
+              
+              setLoginError('Login successful but no authentication token received.');
           }
       } catch (error) {
           console.error('Login error:', error);
           setLoginError(error.message || 'Network error or server is not responding');
       }
   };
+
   
   
 

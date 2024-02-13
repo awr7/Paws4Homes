@@ -15,6 +15,7 @@ console.log("Logged in user ID:", loggedInUserId);
 const [userData, setUserData] = useState({});
 const [isLoading, setIsLoading] = useState(true);
 const navigate = useNavigate();
+const token = localStorage.getItem('token');
 
 
 const MAX_CHAR_LIMIT = 150;
@@ -70,7 +71,9 @@ const MAX_CHAR_LIMIT = 150;
         try {
           const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/get_messages/${receiverID}/`, {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+              'Authorization': `Token ${token}`,
+              },
           });
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -92,9 +95,9 @@ const MAX_CHAR_LIMIT = 150;
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Token ${token}`,
             },
             body: payload,
-            credentials: 'include',
           });
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -116,7 +119,9 @@ const MAX_CHAR_LIMIT = 150;
             console.log('Fetching user profile...');
             const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/user_profile/${loggedInUserId}/`, {
               method: 'GET',
-              credentials: 'include',
+              headers: {
+                'Authorization': `Token ${token}`,
+                },
             });
       
             if (!response.ok) {
@@ -144,7 +149,9 @@ const MAX_CHAR_LIMIT = 150;
             // Send request to mark messages as read
             await fetch(`https://paws4home-2502a21fe873.herokuapp.com/mark_messages_as_read/${receiverID}/`, {
                 method: 'POST',
-                credentials: 'include',
+                headers: {
+                  'Authorization': `Token ${token}`,
+                  },
             });
         };
     

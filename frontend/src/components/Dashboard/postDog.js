@@ -23,6 +23,7 @@ const PostDog = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const listingToEdit = location.state?.listing;
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
       console.log(listingToEdit);
@@ -101,9 +102,8 @@ const PostDog = () => {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
-                    // Include CSRF token and authentication headers as needed
+                    'Authorization': `Token ${token}`,
                 },
-                credentials: 'include', 
                 body: JSON.stringify(formData)
             });
             const data = await response.json();

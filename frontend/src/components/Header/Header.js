@@ -10,6 +10,7 @@ const Header = ({ isLoggedIn, isBusinessAccount , handleLogout  }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const token = localStorage.getItem('token');
 
   const handleMouseEnter = () => {
     console.log("Mouse entered 'My Account'");
@@ -37,7 +38,9 @@ const Header = ({ isLoggedIn, isBusinessAccount , handleLogout  }) => {
   
           const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/get_unread_message_count/', {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+              'Authorization': `Token ${token}`,
+              },
           });
   
           // Log the response object

@@ -21,6 +21,9 @@ const MyAccountPage = () => {
   const fileInputRef = useRef();
   const [profilePicture, setProfilePicture] = useState('');
   const [profilePictureUrl, setProfilePictureUrl] = useState('');
+  const token = localStorage.getItem('token');
+
+  console.log('token is ' , token);
   
 
   useEffect(() => {
@@ -29,7 +32,9 @@ const MyAccountPage = () => {
         console.log('Fetching user profile...');
         const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/user_profile/${loggedInUserId}/`, {
           method: 'GET',
-          credentials: 'include',
+          headers: {
+          'Authorization': `Token ${token}`,
+          },
         });
   
         if (!response.ok) {
@@ -73,10 +78,9 @@ const handleSave = async () => {
     const url = `https://paws4home-2502a21fe873.herokuapp.com/update_user_profile/${loggedInUserId}/`;
     const response = await fetch(url, {
       method: 'PUT',
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        // Include other headers as required
+        'Authorization': `Token ${token}`,
       },
       body: JSON.stringify(updatedUserData),
     });
@@ -112,10 +116,9 @@ const handleSave = async () => {
     try {
       const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/change_password/', {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-
+          'Authorization': `Token ${token}`,
         },
         body: JSON.stringify({ newPassword }),
       });
@@ -158,8 +161,10 @@ const handleSave = async () => {
       try {
         const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/upload-profile-picture/', {
           method: 'POST',
-          credentials: 'include',
           body: formData,
+          headers: {
+            'Authorization': `Token ${token}`,
+            },
         });
   
         if (!response.ok) {

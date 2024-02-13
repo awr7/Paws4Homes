@@ -10,6 +10,7 @@ const ApplicationDetails = () => {
   const [application, setApplication] = useState(null);
   const loggedInUserId = localStorage.getItem('userId');
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
   console.log('Logged in userID in app details: ', loggedInUserId);
 
   const handleAccept = async () => {
@@ -41,9 +42,9 @@ const ApplicationDetails = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`,
         },
         body: JSON.stringify({ receiver: receiverId, content }),
-        credentials: 'include',
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -59,7 +60,9 @@ const ApplicationDetails = () => {
       try {
         const response = await fetch(`https://paws4home-2502a21fe873.herokuapp.com/applications/${id}`, {
           method: 'GET',
-          credentials: 'include', 
+          headers: {
+            'Authorization': `Token ${token}`,
+            },
         });
         
         if (!response.ok) {

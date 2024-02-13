@@ -15,49 +15,47 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 import logging
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from django.core.files.storage import default_storage
 
 logger = logging.getLogger(__name__)
 
 @csrf_exempt
+@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        username = data.get('email')  
+        username = data.get('email')
         password = data.get('password')
 
         user = authenticate(username=username, password=password)
         if user is not None:
-            auth_login(request, user) 
-            # Check if the user is authenticated
-            if request.user.is_authenticated:
-                user_profile = UserProfile.objects.get(user=user)
-                is_business_account = user_profile.is_business_account if user_profile else False
-                print(f"User ID: {user.id} is authenticated.")
-                return JsonResponse({
-                    'success': True, 
-                    'isBusiness': is_business_account,
-                    'userId': user.id  # Include the user's ID in the response
-                }, status=200)
-            else:
-                print(f"User ID: {user.id} authentication failed after login.")
-                return JsonResponse({'error': 'Authentication failed after login'}, status=401)
+            token, _ = Token.objects.get_or_create(user=user)
+            user_profile = UserProfile.objects.get(user=user)
+            is_business_account = user_profile.is_business_account if user_profile else False
+            return JsonResponse({
+                'success': True,
+                'token': token.key,
+                'isBusiness': is_business_account,
+                'userId': user.id
+            }, status=200)
         else:
-            print("Authentication failed with given credentials.")
             return JsonResponse({'error': 'Invalid credentials'}, status=401)
 
-    print("Invalid request method.")
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
 
 
 
 @csrf_exempt
+@api_view(['POST'])
 def logout_user(request):
-    if request.method == 'POST':
-        logout(request)
-        return JsonResponse({'success': 'Logged out successfully'}, status=200)
+    if request.auth:
+        request.auth.delete()
+    return JsonResponse({'success': 'Logged out successfully'}, status=200)
 
-    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
 @csrf_exempt  
@@ -194,7 +192,8 @@ def get_dog_listings(request):
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
-@login_required
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_user_dog_listings(request):
     if request.method == 'GET':
         # Filter listings by the logged-in user
@@ -216,7 +215,8 @@ def get_user_dog_listings(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @csrf_exempt
-@login_required
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def update_dog_listing(request, listing_id):
     if request.method == 'PUT':
         data = json.loads(request.body)
@@ -233,7 +233,8 @@ def update_dog_listing(request, listing_id):
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @csrf_exempt
-@login_required
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_dog_listing(request, listing_id):
     if request.method == 'DELETE':
         try:
@@ -268,7 +269,8 @@ def get_dog_listing(request, listing_id):
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
     
-@login_required
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_user_details(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -323,7 +325,8 @@ def create_adoption_application(request):
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @csrf_exempt
-@login_required
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def send_message(request):
     if request.method == 'POST':
         try:
@@ -354,7 +357,8 @@ def send_message(request):
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
-@login_required
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_messages(request, user_id=None):
     user = request.user
 
@@ -399,7 +403,8 @@ def get_messages(request, user_id=None):
 
 
 
-@login_required
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_adoption_application(request, application_id):
     # Fetch the application, or return 404 if not found
     application = get_object_or_404(AdoptionApplication, pk=application_id)
@@ -445,7 +450,8 @@ def get_adoption_application(request, application_id):
 
     return JsonResponse(application_data)
 
-@login_required
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_user_profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     user_profile = get_object_or_404(UserProfile, user=user)
@@ -465,13 +471,15 @@ def get_user_profile(request, user_id):
     return JsonResponse(data)
 
 @csrf_exempt
-@login_required
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def mark_messages_as_read(request, receiver_id):
     # Mark all messages in the conversation as read
     Message.objects.filter(sender_id=receiver_id, receiver=request.user, is_read=False).update(is_read=True)
     return JsonResponse({'success': True})
 
-@login_required
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_unread_message_count(request):
     # Check if the user is authenticated
     print(request.session.session_key)
@@ -485,7 +493,8 @@ def get_unread_message_count(request):
         return JsonResponse({'error': 'User is not authenticated'}, status=401)
 
 @csrf_exempt
-@login_required
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def user_profile_update(request, user_id):
     print('request user id', request.user.id, ' user_id=', user_id)
 
@@ -527,7 +536,8 @@ def user_profile_update(request, user_id):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 @csrf_exempt
-@login_required
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def change_password(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -551,7 +561,8 @@ def change_password(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
         
-@login_required
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 @csrf_exempt
 def upload_profile_picture(request):
     if request.method == 'POST' and request.FILES['image']:
@@ -624,7 +635,8 @@ breed_characteristics = {
 }
 }
 
-@login_required
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 @csrf_exempt
 def match_dog(request):
     if request.method == 'POST':

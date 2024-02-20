@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from pawsBackend.models import UserProfile, DogListing
 import json
 from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseNotAllowed
@@ -9,8 +8,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout
 from .models import DogListing, AdoptionApplication, Message
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -19,6 +16,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.core.files.storage import default_storage
+from .recommendations import get_matching_breeds
+from .utilities import standardize_breed
 
 logger = logging.getLogger(__name__)
 
@@ -112,6 +111,8 @@ def register(request):
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @csrf_exempt
+@api_view(['POST', 'PUT'])
+@permission_classes([IsAuthenticated])
 def submit_dog_listing(request):
     print(f"Request method: {request.method}")
     print(f"Is user authenticated? {request.user.is_authenticated}")
@@ -576,148 +577,53 @@ def upload_profile_picture(request):
     
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
-breed_characteristics = {
-    'Husky': {
-    'activityLevel': 'high',
-    'sizePreference': 'large',
-    'otherPets': 'yes',
-    'childrenAtHome': 'yes',
-    'furPreference': 'long',
-    'sheddingTolerance': 'high',
-    'livingSituation': 'house_with_yard',
-    'purpose': 'companionship'
-},
-
-    'Golden Retriever' : {
-    'activityLevel': 'moderate',
-    'sizePreference': 'large',
-    'otherPets': 'yes',
-    'childrenAtHome': 'yes',
-    'furPreference': 'long',
-    'sheddingTolerance': 'high',
-    'livingSituation': 'house_with_yard',
-    'purpose': 'companionship'
-},
-
-'French Bulldog': {
-    'activityLevel': 'low',
-    'sizePreference': 'small',
-    'otherPets': 'yes',
-    'childrenAtHome': 'yes',
-    'furPreference': 'short',
-    'sheddingTolerance': 'minimal',
-    'livingSituation': 'apartment',
-    'purpose': 'companionship'
-},
-
-'Border Collie': {
-    'activityLevel': 'high',
-    'sizePreference': 'medium',
-    'otherPets': 'yes',
-    'childrenAtHome': 'yes',
-    'furPreference': 'long',
-    'sheddingTolerance': 'high',
-    'livingSituation': 'farm_rural',
-    'purpose': 'working'
-},
-
-'Dachshund': {
-    'activityLevel': 'moderate',
-    'sizePreference': 'small',
-    'otherPets': 'no',
-    'childrenAtHome': 'no',
-    'furPreference': 'short',
-    'sheddingTolerance': 'minimal',
-    'livingSituation': 'yard',
-    'lookingFor': 'companionship'
-}
-}
-
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 @csrf_exempt
 def match_dog(request):
     if request.method == 'POST':
-        print('We here')
         data = json.loads(request.body)
-        # User's preferences
-        user_preferences = {
-            'activityLevel': data.get('activityLevel'),
-            'dailyTime' : data.get('dailyTime'),
-            'sizePreference': data.get('sizePreference'),
-            'otherPets': data.get('otherPets'),
-            'preferredAge': data.get('preferredAge'),
-            'childrenAtHome': data.get('childrenAtHome'),
-            'furPreference': data.get('furPreference'),
-            'sheddingTolerance': data.get('sheddingTolerance'),
-            'livingSituation': data.get('livingSituation'),
-            'lookingFor': data.get('lookingFor'),
+        print("Received match_dog request with data:", data)
 
+        user_preferences = {key: data.get(key) for key in [
+            'activityLevel', 'dailyTime', 'sizePreference', 'otherPets',
+            'preferredAge', 'childrenAtHome', 'furPreference', 'sheddingTolerance',
+            'livingSituation', 'lookingFor'
+        ]}
+
+        print("User preferences:", user_preferences)
+
+        matching_breeds = get_matching_breeds(user_preferences)
+        print("Matching breeds before standardization:", matching_breeds)
+
+        all_breeds_in_db = DogListing.objects.values_list('breed', flat=True).distinct()
+        print("Breeds in DB:", list(all_breeds_in_db))
+
+        validated_breeds = []
+        for db_breed in all_breeds_in_db:
+            standardized_breed = standardize_breed(db_breed, matching_breeds)
+            if standardized_breed:
+                validated_breeds.append(db_breed)
+        
+        print("Validated breeds for query:", validated_breeds)
+
+        matching_dogs = DogListing.objects.filter(breed__in=validated_breeds)[:3]
+        print("Matching dogs query:", matching_dogs.query)
+
+        response_data = {
+            'matchedBreeds': matching_breeds[:5],
+            'dogs': [{
+                'id': dog.id, 'name': dog.name, 'breed': dog.breed,
+                'age': dog.age, 'color': dog.color, 'size': dog.size,
+                'bio': dog.bio, 'images': dog.images.url if hasattr(dog.images, 'url') else None
+            } for dog in matching_dogs]
         }
 
-        matched_dogs = []
-        for dog in DogListing.objects.all():
-            print('We here2')
-            points = 0
-            breed_info = breed_characteristics.get(dog.breed, {})
-            print('breed info: ', breed_info)
-            print('user prefences: ', user_preferences)
-
-        # Check size match
-        if breed_info.get('sizePreference') == user_preferences['sizePreference']:
-            points += 10
-            print('10 points added for size')
-
-        # Check activity level match
-        if breed_info.get('activityLevel') == user_preferences['activityLevel']:
-            points += 10
-
-        # Check other pets compatibility
-        if breed_info.get('otherPets') == user_preferences['otherPets']:
-            points += 5
-
-        # Check children at home compatibility
-        if breed_info.get('childrenAtHome') == user_preferences['childrenAtHome']:
-            points += 5
-
-        # Check fur preference
-        if breed_info.get('furPreference') == user_preferences['furPreference']:
-            points += 5
-
-        # Check shedding tolerance
-        if breed_info.get('sheddingTolerance') == user_preferences['sheddingTolerance']:
-            points += 5
-
-        # Check living situation
-        if breed_info.get('livingSituation') == user_preferences['livingSituation']:
-            points += 5
-
-        # Check purpose
-        if breed_info.get('purpose') == user_preferences['lookingFor']:
-            points += 5
-
-            matched_dogs.append({'dog': dog, 'points': points})
-        print('dog points: ',points)
-        # Sort and return top matches
-        matched_dogs.sort(key=lambda x: x['points'], reverse=True)
-        
-        # Return the dog with the highest points
-        top_dog = matched_dogs[0]['dog'] if matched_dogs else None
-        if top_dog:
-            dog_data = {
-                'id': top_dog.id,
-                'name': top_dog.name,
-                'breed': top_dog.breed,
-                'age': top_dog.age,
-                'color': top_dog.color,
-                'size': top_dog.size,
-                'bio': top_dog.bio,
-                'images': top_dog.images,
-                'points': matched_dogs[0]['points']
-            }
-            return JsonResponse({'matchedDog': dog_data})
+        if response_data['dogs']:
+            print("Matching dogs found, sending response.")
+            return JsonResponse(response_data, safe=False)
         else:
-            return JsonResponse({'error': 'No matching dogs found'}, status=404)
-
+            print("No matching dogs found after standardization.")
+            return JsonResponse({'error': 'No matching dogs found', 'matchedBreeds': response_data['matchedBreeds']}, status=404)
     else:
+        print("Invalid request method for match_dog.")
         return JsonResponse({'error': 'Invalid request'}, status=400)

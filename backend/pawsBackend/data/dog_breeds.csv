@@ -1,0 +1,21 @@
+Breed,Activity Level,Size Preference,Other Pets,Children at Home,Fur Preference,Shedding Tolerance
+Labrador Retriever,very_active,large,yes,yes,short,a_lot
+German Shepherd,very_active,large,no,yes,short,a_lot
+Golden Retriever,very_active,large,yes,yes,long,a_lot
+French Bulldog,sedentary,small,yes,yes,short,minimal
+Bulldog,sedentary,medium,no,yes,short,minimal
+Beagle,moderately_active,medium,yes,yes,short,medium
+Poodle,moderately_active,any,yes,yes,long,low
+Rottweiler,very_active,large,no,no,short,a_lot
+Yorkshire Terrier,sedentary,small,yes,no,long,low
+Boxer,very_active,large,yes,yes,short,a_lot
+Siberian Husky,very_active,large,none,no,long,a_lot
+Dachshund,sedentary,small,yes,no,short,low
+Great Dane,very_active,large,no,no,short,medium
+Doberman Pinscher,very_active,large,no,no,short,a_lot
+Australian Shepherd,very_active,medium,yes,yes,long,high
+Miniature Schnauzer,moderately_active,small,yes,yes,long,medium
+Cavalier King Charles Spaniel,sedentary,small,yes,yes,long,low
+Shih Tzu,sedentary,small,yes,yes,long,low
+Boston Terrier,moderately_active,small,yes,yes,short,low
+Pomeranian,sedentary,small,yes,no,long,high

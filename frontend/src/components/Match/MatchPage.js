@@ -20,6 +20,9 @@ const MatchPage = ({handleLogin} ) => {
         lookingFor: '',
       });
 
+      const [matchedDogs, setMatchedDogs] = useState([]);
+      const [errorMessage, setErrorMessage] = useState('');
+
       const handleChange = (question, value) => {
         setFormState(prevState => ({
           ...prevState,
@@ -41,18 +44,28 @@ const MatchPage = ({handleLogin} ) => {
             body: JSON.stringify(formState),
             credentials: 'include', 
           });
+          console.log('Form submission:', formState);
       
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
       
           const data = await response.json();
-          console.log('Matched Dog:', data.matchedDog);
+          console.log('Response data:', data);
+          if(data.matchedDog) {
+              console.log('Matched Dog:', data.matchedDog);
+              setMatchedDogs(data.matchedDog);
+              navigate('/matched');
+          } else {
+              console.log('No matching dogs found');
+              setErrorMessage('No matching dogs found');
+          }
       
         } catch (error) {
           console.error('Error submitting form:', error);
+          setErrorMessage('Error submitting form');
         }
-      };
+    };
 
       const tempHandleSubmit = (event) => {
         event.preventDefault();
@@ -214,7 +227,7 @@ const MatchPage = ({handleLogin} ) => {
         />
       </div>
 
-      <button className="match-button" onClick={tempHandleSubmit}>
+      <button className="match-button" onClick={handleSubmit}>
             Find My Match
             </button>
     </form>

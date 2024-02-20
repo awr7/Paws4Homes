@@ -76,6 +76,12 @@ CACHES = {
     }
 }
 
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+#     }
+# }
+
 # Set the session serializer
 SESSION_SERIALIZER = "django.contrib.sessions.serializers.JSONSerializer"
 

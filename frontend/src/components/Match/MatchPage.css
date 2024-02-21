@@ -10,19 +10,144 @@
     font-size: 24px;
     font-family: 'Acme', sans-serif;
     cursor: pointer; 
-    position: absolute;
+    position: relative;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.matching-contaiener{
+.matching-contaiener {
     margin: auto;
     padding-left: 20px;
+}
+
+.match-rectangle{
+    background: linear-gradient(0deg, rgba(0, 128, 128, 0.47) -50%, rgba(255, 255, 255, 0.47) 100%);
+    width: 87.9%;
+    height: 97.8vh;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    font-family: 'Crimson Text', serif;
+}
+
+.matched-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    top:3vh;
+    position: relative;
+}
+
+.matched-breeds-section {
+    position: relative;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.headingMatch{
+    font-size: xx-large;
+    font-family: 'Acme', sans-serif;
+    font-weight: 700;
+}
+
+.breed-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+}
+
+.breed-item {
+    font-size:x-large;
+    padding: 8px 16px;
+    margin: 5px;
+    display: inline-block;
+    
+}
+
+.match-dogs-section {
+    border-radius: 8px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.dogs-list {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 50vh;
+}
+
+.dog-card-wrapper {
+    flex: 1;
+    max-width: 304px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    &:hover {
+        transform: scale(1.25);
+        overflow: visible;
+        z-index: 2;
+      }
+}
+
+.see-all-dogs-button {
+    padding: 10px 20px;
+    font-family: 'Acme', sans-serif;
+    width: 10vw;
+    align-self: center;
+    background-color: #FD7401;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    font-size: 18px;
+}
+
+@media (max-width:1282px) {
+    .breed-item {
+        font-size: large;
+    }
+    .headingMatch{
+        font-size: x-large;
+    }
+    .see-all-dogs-button{
+        width: 15vw;
+    }
+}
+
+@media (max-width:656px) {
+    .breed-item {
+        font-size: medium;
+        padding: 0;
+    }
+    .dogs-list{
+        height: 40vh;
+    }
+    .see-all-dogs-button{
+        width: 45vw;
+    }
 }
 
 @media (max-width:535px) {
     .input-pair select {
         width: 120px;
+    }
+    .headingMatch{
+        font-size: large;
     }
 }
 
@@ -30,5 +155,11 @@
     .input-pair select {
         margin-bottom: 0;
         font-size: 14px;
+    }
+    .dogs-list{
+        height: 30vh;
+    }
+    .breed-item{
+        font-size: small;
     }
 }

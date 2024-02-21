@@ -612,9 +612,15 @@ def match_dog(request):
         response_data = {
             'matchedBreeds': matching_breeds[:5],
             'dogs': [{
-                'id': dog.id, 'name': dog.name, 'breed': dog.breed,
-                'age': dog.age, 'color': dog.color, 'size': dog.size,
-                'bio': dog.bio, 'images': dog.images.url if hasattr(dog.images, 'url') else None
+                'id': dog.id, 
+                'name': dog.name, 
+                'breed': dog.breed,
+                'age': dog.age, 
+                'age_unit': dog.age_unit,
+                'color': dog.color, 
+                'size': dog.size,
+                'bio': dog.bio, 
+                'images': dog.images if dog.images else None
             } for dog in matching_dogs]
         }
 

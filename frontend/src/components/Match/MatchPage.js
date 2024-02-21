@@ -43,33 +43,27 @@ const MatchPage = ({handleLogin} ) => {
             },
             body: JSON.stringify(formState),
             credentials: 'include', 
-          });
-          console.log('Form submission:', formState);
-      
+          });               
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
       
           const data = await response.json();
-          console.log('Response data:', data);
-          if(data.matchedDog) {
-              console.log('Matched Dog:', data.matchedDog);
-              setMatchedDogs(data.matchedDog);
-              navigate('/matched');
+          
+          
+          if(data.matchedBreeds && data.dogs) {
+              navigate('/matched', { state: { matchedBreeds: data.matchedBreeds, matchedDogs: data.dogs } });
           } else {
-              console.log('No matching dogs found');
               setErrorMessage('No matching dogs found');
           }
       
         } catch (error) {
-          console.error('Error submitting form:', error);
           setErrorMessage('Error submitting form');
         }
     };
 
       const tempHandleSubmit = (event) => {
         event.preventDefault();
-        console.log('Form submission:', formState);
         // Redirect to the matched page
         navigate('/matched');
     };

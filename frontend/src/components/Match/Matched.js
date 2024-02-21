@@ -1,45 +1,44 @@
-
-import { useNavigate } from 'react-router-dom';
-import DogCard from '../Explore/DogCard'; // Import DogCard component
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import DogCard from '../Explore/DogCard';
+import kobe from '../../assets/img/kobePup.jpg';
 
 const MatchedPage = () => {
+    const location = useLocation();
     const navigate = useNavigate();
-    const [matchedDog, setMatchedDog] = useState(null);
-
-    useEffect(() => {
-        const fetchDogListing = async () => {
-            try {
-                const response = await fetch('https://paws4home-2502a21fe873.herokuapp.com/get-dog-listings/');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                // Assuming the dog with ID 25 is always in the list
-                const dog = data.find(d => d.id === 1);
-                setMatchedDog(dog);
-            } catch (error) {
-                console.error('Error fetching dog data:', error);
-            }
-        };
-        fetchDogListing();
-    }, []);
-
-    if (!matchedDog) {
-        return <div>Loading...</div>;
-    }
+    const { matchedBreeds, matchedDogs } = location.state || { matchedBreeds: [], matchedDogs: [] };
 
     return (
         <div className="login-container">
-        <div className="white-rectangle">
-            <h2>We think {matchedDog.name} is your match!</h2>
-            <DogCard
-                image={matchedDog.images}
-                name={matchedDog.name}
-                age={matchedDog.age}
-                breed={matchedDog.breed}
-            />
-            <button onClick={() => navigate('/explore')}>See All Dogs</button>
+            <div className='match-rectangle'>
+            <div className="matched-container">
+                <div className="matched-breeds-section">
+                <div className='headingMatch'>We think these breeds are your perfect match:</div>
+                    <ul className="breed-list">
+                        {matchedBreeds.map((breed, index) => (
+                            <li key={index} className="breed-item">{breed}</li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="match-dogs-section">
+                        <div className='headingMatch'>We got these pups you will love</div>
+                        </div>
+                        <div className="dogs-list">
+                            {matchedDogs.map((dog, index) => (
+                                <div className="dog-card-wrapper" key={index}>
+                                    <Link to={`/dog/${dog.id}`}>
+                                        <DogCard
+                                            image={dog.images && dog.images.length > 0 ? dog.images[0] : kobe}
+                                            name={dog.name}
+                                            age={`${dog.age} ${dog.age_unit}`}
+                                            breed={dog.breed}
+                                        />
+                                    </Link>
+                                </div>
+                            ))}
+                    </div>
+                    <button className="see-all-dogs-button" onClick={() => navigate('/explore')}>See All Dogs</button>   
+            </div>
             </div>
         </div>
     );

@@ -177,8 +177,15 @@
 
   .dog-cards-container a {
     flex-basis: 30%;
+    min-height: 45vh;
     margin-right: 2%;
     display: flex;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    &:hover {
+        transform: scale(1.25);
+        overflow: visible;
+        z-index: 2;
+      }
   }
   
   
